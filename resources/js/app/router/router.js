@@ -9,6 +9,7 @@ import verification from "../authentication/pages/verification.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
 import home from "../portal/pages/home.vue";
+import profile from "../portal/pages/profile.vue";
 
 const title = 'Crud - ';
 
@@ -27,6 +28,7 @@ const routes = [
         path: '/', name: 'portalLayout', component: portalLayout,
         children: [
             { path: '', name: 'home', component: home, meta: { title: title + 'Home' } },
+            { path: 'profile', name: 'profile', component: profile, meta: { title: title + 'Profile' } },
         ]
     },
 ];

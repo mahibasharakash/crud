@@ -1,7 +1,44 @@
 <template>
-    <section class="w-full h-screen grid justify-center items-center duration-500 p-5 overflow-y-auto">
+
+    <!-- header -->
+    <header class="bg-white w-full">
+        <div class="mx-auto max-w-7xl w-full min-h-[80px] max-h-[80px] flex justify-between items-center">
+
+            <!-- logo -->
+            <RouterLink :to="{name:'login'}" class="decoration-0 text-black text-2xl">
+                Laravel
+            </RouterLink>
+            <!-- / logo -->
+
+            <!-- group links -->
+            <div class="flex justify-end items-center gap-4">
+
+                <!-- login -->
+                <RouterLink :to="{name:'login'}" class="decoration-0 text-black text-sm">
+                    SignIn
+                </RouterLink>
+                <!-- / login -->
+
+                <!-- registration -->
+                <RouterLink :to="{name:'registration'}" class="decoration-0 text-black text-sm">
+                    SignUp
+                </RouterLink>
+                <!-- / registration -->
+
+            </div>
+            <!-- / group links -->
+
+        </div>
+    </header>
+    <!-- / header -->
+
+    <!-- main -->
+    <main class="w-full min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] grid justify-center items-center duration-500 p-5 overflow-y-auto bg-gray-100">
         <div class="min-w-[350px] sm:min-w-[420px] p-5 sm:p-10 bg-white/55 backdrop-blur-xs shadow-xl rounded-2xl border border-gray-200">
+
             <div class="flex justify-center mb-5">
+
+                <!-- logo -->
                 <RouterLink :to="{name:'login'}">
                     <svg fill="#000000" viewBox="0 0 32 32" class="max-w-[65px] min-w-[65px]" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -12,10 +49,18 @@
                         </g>
                     </svg>
                 </RouterLink>
+                <!-- / logo -->
+
             </div>
+
+            <!-- authentication part -->
             <RouterView></RouterView>
+            <!-- / authentication part -->
+
         </div>
-    </section>
+    </main>
+    <!-- / main -->
+
 </template>
 
 <script>
