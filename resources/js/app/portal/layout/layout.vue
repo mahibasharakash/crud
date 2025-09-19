@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl px-6 w-full min-h-[80px] max-h-[80px] flex justify-between items-center duration-500" :class="{ 'rounded-0 bg-transparent shadow-none' : !isScrolled, 'rounded-xl bg-white shadow-2xl' : isScrolled }">
 
             <!-- logo -->
-            <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-xl">
+            <RouterLink :to="{name:'dashboard'}" class="decoration-0 font-semibold text-black text-xl">
                 Laravel
             </RouterLink>
             <!-- / logo -->
@@ -14,13 +14,13 @@
             <div class="flex justify-end items-center gap-8">
 
                 <!-- profile -->
-                <RouterLink :to="{name:'profile'}" class="decoration-0 text-sm" :class="{ 'text-blue-400' : $route.name === 'profile', 'text-black' : $route.name !== 'profile' }">
+                <RouterLink :to="{name:'profile'}" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600' : $route.name === 'profile', 'text-black' : $route.name !== 'profile' }">
                     {{profileData?.name}}
                 </RouterLink>
                 <!-- / profile -->
 
                 <!-- logout -->
-                <a class="cursor-pointer decoration-0 text-sm" @click="logoutApi()">
+                <a class="cursor-pointer decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600' : logoutLoading, 'text-black' : !logoutLoading }" @click="logoutApi()">
                     Logout
                 </a>
                 <!-- / logout -->
