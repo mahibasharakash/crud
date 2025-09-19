@@ -12,14 +12,19 @@
     </div>
     <!-- / breadcrumb -->
 
-    <!-- header -->
     <div class="flex justify-between items-center mb-4">
+
+        <!-- search -->
         <input type="text" name="search" class="w-full max-w-[420px] min-h-[50px] max-h-[50px] outline-0 bg-white border-0 shadow-md px-5 placeholder-black text-sm rounded-md" placeholder="Search Here" required autocomplete="off" />
+        <!-- / search -->
+
+        <!-- button -->
         <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-blue-500 duration-500 hover:bg-blue-700 text-white cursor-pointer" @click="openManageModal()">
             New
         </button>
+        <!-- / button -->
+
     </div>
-    <!-- / header -->
 
     <!-- crud -->
     <div class="w-full min-h-[calc(100vh-370px)] max-h-[calc(100vh-370px)] overflow-y-auto pe-3 py-3">
