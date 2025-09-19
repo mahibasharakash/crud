@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl px-5 w-full min-h-[80px] max-h-[80px] flex justify-between items-center">
 
             <!-- logo -->
-            <RouterLink :to="{name:'login'}" class="decoration-0 text-black text-2xl">
+            <RouterLink :to="{name:'login'}" class="decoration-0 text-black text-xl">
                 Laravel
             </RouterLink>
             <!-- / logo -->

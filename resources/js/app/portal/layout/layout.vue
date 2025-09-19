@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl px-6 w-full min-h-[80px] max-h-[80px] flex justify-between items-center duration-500" :class="{ 'rounded-0 bg-transparent shadow-none' : !isScrolled, 'rounded-xl bg-white shadow-2xl' : isScrolled }">
 
             <!-- logo -->
-            <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-2xl">
+            <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-xl">
                 Laravel
             </RouterLink>
             <!-- / logo -->
