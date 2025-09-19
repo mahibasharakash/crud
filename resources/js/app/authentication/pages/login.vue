@@ -86,7 +86,7 @@ export default {
                 const response = await axios.post(apiRoutes.login, this.formData, {headers: apiServices.headerContent});
                 cookieServices.set('access_token', response?.data?.token);
                 cookieServices.set('user', JSON.stringify(response?.data?.user));
-                this.$router.push({name:'home'})
+                this.$router.push({name:'dashboard'})
             } catch (e) {
                 if(e.response.data.errors) {
                     this.error = e.response.data.errors;

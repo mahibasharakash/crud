@@ -10,7 +10,7 @@ import reset from "../authentication/pages/reset.vue";
 import verification from "../authentication/pages/verification.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
-import home from "../portal/pages/home.vue";
+import dashboard from "../portal/pages/dashboard.vue";
 import profile from "../portal/pages/profile.vue";
 
 const title = 'Crud - ';
@@ -29,7 +29,7 @@ const routes = [
     {
         path: '/', name: 'portalLayout', component: portalLayout,
         children: [
-            { path: '', name: 'home', component: home, meta: { title: title + 'Home' } },
+            { path: '', name: 'dashboard', component: dashboard, meta: { title: title + 'Dashboard' } },
             { path: 'profile', name: 'profile', component: profile, meta: { title: title + 'Profile' } },
         ]
     },
@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = !!cookieServices.get('access_token');
     if (to.matched.some(record => record.name === 'authLayout')) {
         if (isAuthenticated) {
-            next({name: 'home'});
+            next({name: 'dashboard'});
         } else {
             next();
         }

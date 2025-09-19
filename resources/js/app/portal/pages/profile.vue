@@ -2,6 +2,20 @@
 
     <div class="max-w-7xl mx-auto w-full">
 
+        <div class="w-full flex justify-start items-center p-6 gap-3 bg-white rounded-md mb-5 shadow-xl">
+            <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-sm">
+                Dashboard
+            </RouterLink>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </span>
+            <RouterLink :to="{name:'profile'}" class="decoration-0 text-black text-sm">
+                Profile
+            </RouterLink>
+        </div>
+
         <!-- update changes -->
         <div class="border border-gray-200 w-full bg-white rounded-lg p-6 block mb-5">
 
