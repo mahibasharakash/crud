@@ -12,7 +12,11 @@ const apiRoutes = {
     deleteAccount: '/profile/delete-account',
     logout: '/profile/logout',
 
-    crud: '/crud',
+    listCrud: '/crud/list',
+    createCrud: '/crud/store',
+    showCrud: '/crud/show',
+    updateCrud: '/crud/update',
+    deleteCrud: '/crud/delete',
 
 }
 

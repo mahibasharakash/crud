@@ -1,7 +1,7 @@
 <template>
 
     <!-- breadcrumb -->
-    <div class="w-full flex justify-start items-center p-6 gap-3 bg-white rounded-md mb-5 shadow-md">
+    <div class="w-full flex justify-start items-center px-6 py-4 gap-3 bg-white rounded-md mb-3 shadow-md">
 
         <!-- breadcrumb link -->
         <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-sm font-medium">
@@ -10,10 +10,10 @@
         <!-- / breadcrumb link -->
 
         <span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+        </span>
 
         <!-- breadcrumb link -->
         <RouterLink :to="{name:'profile'}" class="decoration-0 text-black text-sm font-medium">

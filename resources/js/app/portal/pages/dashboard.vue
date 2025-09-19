@@ -1,7 +1,7 @@
 <template>
 
     <!-- breadcrumb -->
-    <div class="w-full flex justify-start items-center p-6 gap-3 bg-white rounded-md mb-5 shadow-md">
+    <div class="w-full flex justify-start items-center px-6 py-4 gap-3 bg-white rounded-md mb-3 shadow-md">
 
         <!-- breadcrumb link -->
         <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-sm font-medium">
@@ -12,38 +12,57 @@
     </div>
     <!-- / breadcrumb -->
 
-    <div class="flex justify-between items-center mb-4">
+    <div class="flex justify-between items-center mb-3">
 
         <!-- search -->
-        <input type="text" name="search" class="w-full max-w-[420px] min-h-[50px] max-h-[50px] outline-0 bg-white border-0 shadow-md px-5 placeholder-black text-sm rounded-md" placeholder="Search Here" required autocomplete="off" />
+        <div class="relative max-w-[420px] w-full">
+            <div class="absolute top-0 bottom-0 start-0 ps-5 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </div>
+            <input type="text" name="search" v-model="params.search" @input="searchData()" class="ps-16 w-full min-h-[50px] max-h-[50px] outline-0 bg-white border-0 shadow-md pe-5 placeholder-black text-sm rounded-md" placeholder="Search Here" required autocomplete="off" />
+        </div>
         <!-- / search -->
 
         <!-- button -->
-        <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-blue-500 duration-500 hover:bg-blue-700 text-white cursor-pointer" @click="openManageModal()">
+        <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-blue-500 duration-500 hover:bg-blue-700 text-white cursor-pointer" @click="openManageModal(null)">
             New
         </button>
         <!-- / button -->
 
     </div>
 
+    <!-- loading  -->
+    <div class="w-full min-h-[calc(100vh-320px)] max-h-[calc(100vh-320px)] flex justify-center items-center bg-white shadow-md rounded-md" v-if="listLoading">
+        <div class="w-12 h-12 inline-block rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
+    </div>
+    <!-- / loading  -->
+
+    <!-- no data founded -->
+    <div class="w-full min-h-[calc(100vh-320px)] max-h-[calc(100vh-320px)] flex justify-center items-center flex-col bg-white shadow-md rounded-md" v-if="tableData.length === 0 && !listLoading">
+        <div class="mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-18 h-18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+        </div>
+        <div class="font-medium mb-2 text-md"> No Data Found </div>
+        <div class="font-normal text-sm"> Click to "New" to add new data </div>
+    </div>
+    <!-- / no data founded -->
+
     <!-- crud -->
-    <div class="w-full min-h-[calc(100vh-370px)] max-h-[calc(100vh-370px)] overflow-y-auto pe-3 py-3">
+    <div class="w-full min-h-[calc(100vh-370px)] max-h-[calc(100vh-370px)] overflow-y-auto pe-3 py-3" v-if="tableData.length > 0 && !listLoading">
         <table class="table table-auto w-full">
 
             <!-- crud head -->
             <thead>
                 <tr class="w-full block rounded-lg overflow-hidden duration-500 bg-white shadow-md">
-                    <th class="mb-3 rounded-s-lg overflow-hidden max-w-[200px] min-w-[200px] text-xs font-medium text-start py-5 px-7">
-                        Name
+                    <th class="mb-3 rounded-s-lg overflow-hidden max-w-[400px] min-w-[400px] text-xs font-medium text-start py-5 px-7">
+                        Title
                     </th>
-                    <th class="mb-3 max-w-[260px] min-w-[260px] text-xs font-medium text-start py-5 px-7">
-                        Email
-                    </th>
-                    <th class="mb-3 max-w-[180px] min-w-[180px] text-xs font-medium text-start py-5 px-7">
-                        Phone
-                    </th>
-                    <th class="mb-3 max-w-[400px] min-w-[400px] text-xs font-medium text-start py-5 px-7">
-                        Present Address
+                    <th class="mb-3 max-w-[600px] min-w-[600px] text-xs font-medium text-start py-5 px-7">
+                        Description
                     </th>
                     <th class="mb-3 rounded-e-lg overflow-hidden max-w-[150px] min-w-[150px] text-xs font-medium text-start py-5 px-7">
                         Action
@@ -54,33 +73,23 @@
 
             <!-- crud body -->
             <tbody>
-                <tr v-for="(each, index) in 20" :key="index" class="w-full mt-3 block rounded-lg shadow-md hover:shadow-lg overflow-hidden duration-500 bg-white  hover:bg-blue-50">
-                    <td class="rounded-s-lg overflow-hidden max-w-[200px] min-w-[200px] text-xs font-normal text-start py-5 px-7">
+                <tr v-for="(each, index) in tableData" :key="index" class="w-full mt-3 block rounded-lg shadow-md hover:shadow-lg overflow-hidden duration-500 bg-white  hover:bg-blue-50">
+                    <td class="rounded-s-lg overflow-hidden max-w-[400px] min-w-[400px] text-xs font-normal text-start py-5 px-7">
                         <div class="truncate">
-                            Mahi Bashar Akash
+                            {{each.title}}
                         </div>
                     </td>
-                    <td class="max-w-[260px] min-w-[260px] text-xs font-normal text-start py-5 px-7">
+                    <td class="max-w-[600px] min-w-[600px] text-xs font-normal text-start py-5 px-7">
                         <div class="truncate">
-                            mahibashar2000002@gmail.com
-                        </div>
-                    </td>
-                    <td class="max-w-[180px] min-w-[180px] text-xs font-normal text-start py-5 px-7">
-                        <div class="truncate">
-                            01400125289
-                        </div>
-                    </td>
-                    <td class="max-w-[400px] min-w-[400px] text-xs font-normal text-start py-5 px-7">
-                        <div class="truncate">
-                            Dhanmondi, Dhaka - 1216, Bangladesh
+                            {{each.description}}
                         </div>
                     </td>
                     <td class="rounded-e-lg overflow-hidden max-w-[150px] min-w-[150px] text-xs font-normal text-start py-5 px-7">
                         <div class="flex justify-start items-center gap-5">
-                            <a href="javascript:void(0)" class="decoration-0 text-gray-600" @click="openManageModal()">
+                            <a class="decoration-0 text-gray-600 cursor-pointer" @click="openManageModal(each.id)">
                                 Edit
                             </a>
-                            <a href="javascript:void(0)" class="decoration-0 text-red-600" @click="openDeleteModal()">
+                            <a class="decoration-0 text-red-600 cursor-pointer" @click="openDeleteModal(each.id)">
                                 Delete
                             </a>
                         </div>
@@ -93,43 +102,35 @@
     </div>
     <!-- / crud -->
 
-    <div class="w-full flex justify-between items-center mt-3">
+    <div class="w-full flex justify-between items-center mt-3" v-if="tableData.length > 0 && !listLoading">
 
-        <!-- pagination -->
+        <!-- pagination buttons -->
         <div class="flex justify-start items-center gap-1">
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
+
+            <!-- Previous button -->
+            <button type="button" :disabled="pagination.current_page <= 1" @click="goToPage(pagination.current_page - 1)" class="disabled:bg-blue-300 cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                 </svg>
             </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
-                1
+
+            <!-- Page buttons -->
+            <button v-for="page in getPageRange()" :key="page" type="button" @click="goToPage(page)" :class="[ 'cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center duration-500', page === pagination.current_page ? 'bg-blue-700 text-white' : 'bg-blue-400 text-white hover:bg-blue-700' ]">
+                {{ page }}
             </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
-                2
-            </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
-                3
-            </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
-                4
-            </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
-                5
-            </button>
-            <button type="button" class="cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700">
+
+            <!-- Next button -->
+            <button type="button" :disabled="pagination.current_page >= pagination.last_page" @click="goToPage(pagination.current_page + 1)" class="disabled:bg-blue-300 cursor-pointer rounded-md min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                 </svg>
             </button>
         </div>
-        <!-- / pagination -->
 
         <!-- count -->
         <div class="text-gray-600 text-sm font-medium">
-            10 of 30 from 300
+            Showing {{ tableData.length }} of {{ pagination.total }} items
         </div>
-        <!-- / count -->
 
     </div>
 
@@ -140,11 +141,15 @@
         <aside class="bg-white rounded-xl w-full sm:max-w-[450px] sm:min-w-[450px] px-8 py-5 duration-500 origin-top" :class="{ 'translate-y-0 opacity-100': isActiveManageModal, '-translate-y-1/2 opacity-0': !isActiveManageModal }" @click.stop>
 
             <!-- form -->
-            <form class="w-full block">
+            <form @submit.prevent="manageApi()" class="w-full block">
 
                 <!-- header -->
                 <div class="w-full flex justify-between items-center mb-3">
-                    <div class="text-xl font-semibold"> Create Crud </div>
+                    <div class="text-xl font-semibold">
+                        <template v-if="formData.id"> Edit </template>
+                        <template v-else> Create </template>
+                        Crud
+                    </div>
                     <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] bg-transparent duration-500 hover:bg-gray-200 rounded-full inline-flex justify-center items-center cursor-pointer" @click="closeManageModal()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -156,44 +161,36 @@
                 <!-- body -->
                 <div class="w-full block">
 
-                    <!-- name -->
+                    <!-- title -->
                     <div class="mb-3 w-full block">
-                        <label for="name" class="mb-2 w-full block text-sm"> Name </label>
-                        <input id="name" type="text" name="name" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="title" class="mb-2 w-full block text-sm"> Title </label>
+                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
                     </div>
-                    <!-- / name -->
+                    <!-- / title -->
 
-                    <!-- email -->
+                    <!-- description -->
                     <div class="mb-3 w-full block">
-                        <label for="email" class="mb-2 w-full block text-sm"> Email </label>
-                        <input id="email" type="email" name="email" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="description" class="mb-2 w-full block text-sm"> Description </label>
+                        <textarea name="description" id="description" v-model="formData.description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="4" autocomplete="off"></textarea>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.description"> {{error?.description[0]}} </div>
                     </div>
-                    <!-- / email -->
-
-                    <!-- phone -->
-                    <div class="mb-3 w-full block">
-                        <label for="phone" class="mb-2 w-full block text-sm"> Phone Number </label>
-                        <input id="phone" type="text" name="phone" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
-                    </div>
-                    <!-- / phone -->
-
-                    <!-- address -->
-                    <div class="mb-3 w-full block">
-                        <label for="address" class="mb-2 w-full block text-sm"> Address </label>
-                        <input id="address" type="text" name="address" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
-                    </div>
-                    <!-- / address -->
+                    <!-- / description -->
 
                 </div>
                 <!-- / body -->
 
                 <!-- footer -->
                 <div class="w-full flex justify-end items-center gap-5">
-                    <button type="button" class="font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeManageModal()">
+                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeManageModal()">
                         Cancel
                     </button>
-                    <button type="button" class="font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center">
-                        Create
+                    <button type="submit" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!manageLoading">
+                        <template v-if="formData.id"> Update </template>
+                        <template v-else> Create </template>
+                    </button>
+                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="manageLoading">
+                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -214,7 +211,7 @@
         <aside class="bg-white rounded-xl w-full sm:max-w-[450px] sm:min-w-[450px] px-8 py-10 duration-500 origin-top" :class="{ 'translate-y-0 opacity-100': isActiveDeleteModal, '-translate-y-1/2 opacity-0': !isActiveDeleteModal }" @click.stop>
 
             <!-- form -->
-            <form class="w-full block">
+            <form @submit.prevent="deleteApi()" class="w-full block">
 
                 <!-- header -->
                 <div class="mb-3 flex justify-center">
@@ -232,11 +229,14 @@
 
                 <!-- footer -->
                 <div class="w-full flex justify-center items-center gap-5">
-                    <button type="button" class="font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeDeleteModal()">
+                    <button type="button" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeDeleteModal()">
                         Cancel
                     </button>
-                    <button type="button" class="font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center">
+                    <button type="submit" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!deleteLoading">
                         Confirm
+                    </button>
+                    <button type="button" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="deleteLoading">
+                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -254,21 +254,60 @@
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/app/apiController/apiRoutes.js";
+import apiServices from "@/app/apiController/apiServices.js";
+
 export default {
     data() {
         return {
             // data properties
             isActiveManageModal: false,
             isActiveDeleteModal: false,
+            manageLoading: false,
+            listLoading: false,
+            deleteLoading: false,
+            showLoading: false,
+            searchTimeout: null,
+            tableData: [],
+            params: {
+                page: 1,
+                per_page: 10,
+                search: ''
+            },
+            pagination: {
+                current_page: 1,
+                per_page: 10,
+                total: 0,
+                last_page: 0
+            },
+            formData: {
+                id: null,
+                title: '',
+                description: '',
+            },
+            error: {},
         }
     },
     mounted() {
         // mounted properties
+        this.listApi();
     },
     methods: {
 
         // open manage modal
-        openManageModal() {
+        openManageModal(data) {
+            this.error = {};
+            if(data) {
+                this.showApi(data);
+            } else {
+                this.formData = {
+                    id: null,
+                    title: '',
+                    description: '',
+                }
+            }
             this.isActiveManageModal = true;
         },
 
@@ -278,14 +317,119 @@ export default {
         },
 
         // open delete modal
-        openDeleteModal() {
+        openDeleteModal(data) {
+            this.formData.id = data;
             this.isActiveDeleteModal = true;
         },
 
         // close delete modal
         closeDeleteModal() {
             this.isActiveDeleteModal = false;
-        }
+        },
+
+        // manage api implementation
+        async manageApi() {
+            if(this.formData.id) {
+                await this.updateApi();
+            } else {
+                await this.createApi();
+            }
+        },
+
+        // create api implementation
+        async createApi() {
+            try {
+                this.error = null;
+                this.manageLoading = true;
+                await axios.post(apiRoutes.createCrud, this.formData, {headers: apiServices.headerContent});
+                this.formData = { title: '', description: '' };
+                this.closeManageModal();
+                await this.listApi();
+            } catch(e) {
+                this.error = e.response.data.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // update api implementation
+        async updateApi() {
+            try {
+                this.manageLoading = true;
+                await axios.put(apiRoutes.updateCrud+`/${this.formData.id}`, this.formData, {headers: apiServices.headerContent});
+                this.formData = { title: '', description: '' };
+                this.closeManageModal();
+                await this.listApi();
+            } catch(e) {
+                this.error = e.response.data.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // list api implementation
+        async listApi() {
+            try {
+                this.listLoading = true;
+                const response = await axios.get(apiRoutes.listCrud, {params: this.params}, {headers: apiServices.headerContent});
+                this.tableData = response?.data?.data;
+                this.pagination = response?.data?.pagination;
+            } finally {
+                this.listLoading = false;
+            }
+        },
+
+        // search data
+        searchData() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.params.page = 1;
+                this.listApi();
+            }, 500);
+        },
+
+        // page change
+        goToPage(page) {
+            if (page >= 1 && page <= this.pagination.last_page) {
+                this.params.page = page;
+                this.listApi();
+            }
+        },
+
+        // Generate max 5-page buttons
+        getPageRange() {
+            const total = this.pagination.last_page || 1;
+            let start = this.pagination.current_page - 2;
+            let end = this.pagination.current_page + 2;
+            if (start < 1) { start = 1; end = Math.min(5, total); }
+            if (end > total) { end = total; start = Math.max(total - 4, 1); }
+            const range = [];
+            for (let i = start; i <= end; i++) { range.push(i); }
+            return range;
+        },
+
+        // show api implementation
+        async showApi(data) {
+            try {
+                this.showLoading = true;
+                const response = await axios.get(apiRoutes.showCrud+`/${data}`, {headers: apiServices.headerContent});
+                this.formData = response.data.data
+            } finally {
+                this.showLoading = false;
+            }
+        },
+
+        // delete api implementation
+        async deleteApi() {
+            try {
+                this.deleteLoading = true;
+                await axios.delete(apiRoutes.deleteCrud+`/${this.formData.id}`, {headers: apiServices.headerContent});
+                this.closeDeleteModal();
+                await this.listApi();
+            } finally {
+                this.deleteLoading = false;
+            }
+        },
 
     }
 }
