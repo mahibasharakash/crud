@@ -28,7 +28,6 @@ import axios from "axios";
 
 import apiRoutes from "@/app/apiController/apiRoutes.js";
 import apiServices from "@/app/apiController/apiServices.js";
-import cookieServices from "@/app/apiController/cookieServices.js";
 
 export default {
     data() {

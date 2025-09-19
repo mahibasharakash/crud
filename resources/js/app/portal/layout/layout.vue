@@ -15,7 +15,7 @@
 
                 <!-- profile -->
                 <RouterLink :to="{name:'profile'}" class="decoration-0 text-sm" :class="{ 'text-blue-400' : $route.name === 'profile', 'text-black' : $route.name !== 'profile' }">
-                    Profile
+                    {{profileData?.name}}
                 </RouterLink>
                 <!-- / profile -->
 
@@ -32,8 +32,10 @@
     </header>
     <!-- / header -->
 
-    <main class="w-full bg-gray-100">
-        <div class="mx-auto max-w-7xl px-5 w-full min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)]"></div>
+    <main class="w-full bg-gray-100 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] overflow-y-auto">
+        <div class="mx-auto max-w-7xl px-5 w-full">
+            <RouterView></RouterView>
+        </div>
     </main>
 
 </template>
@@ -50,10 +52,12 @@ export default {
     data() {
         return {
             logoutLoading: false,
+            profileLoading: false,
+            profileData: null,
         }
     },
     mounted() {
-
+        this.profileData = JSON.parse(cookieServices.get('user'))
     },
     methods: {
 

@@ -53,7 +53,7 @@ export default {
                 this.loading = true;
                 const response = await axios.post(apiRoutes.verification, this.formData, {headers: apiServices.headerContent});
                 if(response.data.message) {
-                    this.$router.push({name:'reset', state: {email: this.email}})
+                    this.$router.push({name:'reset', state: {email: this.formData.email} });
                 }
             } catch (e) {
                 this.error = e.response.data.errors;

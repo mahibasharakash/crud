@@ -65,10 +65,10 @@ export default {
                 this.invalidError = null;
                 this.loading = true;
                 const response = await axios.post(apiRoutes.login, this.formData, {headers: apiServices.headerContent});
-                cookieServices.set('access_token', response.data.token);
-                this.$router.push({name:'home'});
+                cookieServices.set('access_token', response?.data?.token);
+                cookieServices.set('user', JSON.stringify(response?.data?.user));
+                this.$router.push({name:'home'})
             } catch (e) {
-                console.log(e)
                 if(e.response.data.errors) {
                     this.error = e.response.data.errors;
                 } else if (e.response.data.message) {

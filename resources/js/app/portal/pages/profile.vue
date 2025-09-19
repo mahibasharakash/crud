@@ -1,21 +1,141 @@
 <template>
 
+    <div class="max-w-7xl mx-auto w-full py-10">
 
+        <div class="border border-gray-200 w-full bg-white rounded-lg p-6 block mb-5">
+            <div class="mb-1 block w-full font-semibold text-xl"> Profile Information </div>
+            <div class="mb-6 block w-full font-normal text-sm"> Update your account's profile information and email address. </div>
+            <form @submit.prevent="changeDetails" class="w-full block max-w-[500px]">
+                <div class="mb-3 w-full block">
+                    <label for="name" class="block mb-2 w-full text-sm"> Name </label>
+                    <input id="name" type="text" name="name" v-model="profileParam.name" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" />
+                    <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="profileError?.name"> {{profileError?.name[0]}} </div>
+                </div>
+                <div class="mb-3 w-full block">
+                    <label for="email" class="block mb-2 w-full text-sm"> Email </label>
+                    <input id="email" type="email" name="email" v-model="profileParam.email" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" />
+                    <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="profileError?.email"> {{profileError?.email[0]}} </div>
+                </div>
+                <div class="w-full block">
+                    <button type="submit" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!profileLoading">
+                        Update
+                    </button>
+                    <button type="button" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="profileLoading">
+                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="border border-gray-200 w-full bg-white rounded-lg p-7 block">
+            <div class="mb-1 block w-full font-semibold text-xl"> Update Password </div>
+            <div class="mb-6 block w-full font-normal text-sm"> Ensure your account is using a long, random password to stay secure. </div>
+            <div class="mb-3 text-red-600 bg-red-100 text-sm font-medium p-4 max-w-[500px] rounded-md" v-if="notMatch">
+                {{notMatch}}
+            </div>
+            <form @submit.prevent="changePassword" class="w-full block max-w-[500px]">
+                <div class="mb-3 w-full block">
+                    <label for="current_password" class="block mb-2 w-full text-sm"> Current Password </label>
+                    <input id="current_password" type="password" name="current_password" v-model="passwordParam.current_password" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
+                    <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.current_password"> {{passwordError?.current_password[0]}} </div>
+                </div>
+                <div class="mb-3 w-full block">
+                    <label for="password" class="block mb-2 w-full text-sm"> Password </label>
+                    <input id="password" type="password" name="password" v-model="passwordParam.password" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
+                    <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.password"> {{passwordError?.password[0]}} </div>
+                </div>
+                <div class="mb-3 w-full block">
+                    <label for="password_confirmation" class="block mb-2 w-full text-sm"> Password Confirmation </label>
+                    <input id="password_confirmation" type="password" name="password_confirmation" v-model="passwordParam.password_confirmation" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
+                    <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.password_confirmation"> {{passwordError?.password_confirmation[0]}} </div>
+                </div>
+                <div class="w-full block">
+                    <button type="submit" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!passwordLoading">
+                        Update
+                    </button>
+                    <button type="button" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="passwordLoading">
+                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </template>
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/app/apiController/apiRoutes.js";
+import apiServices from "@/app/apiController/apiServices.js";
+
 export default {
     data() {
         return {
-
+            profileDataLoading: false,
+            profileData: null,
+            profileParam: {
+                name: '',
+                email: '',
+            },
+            profileError: null,
+            profileLoading: false,
+            passwordParam: {
+                current_password: '',
+                password: '',
+                password_confirmation: '',
+            },
+            passwordError: null,
+            passwordLoading: false,
+            notMatch: null,
         }
     },
     mounted() {
-
+        this.getDetails();
     },
     methods: {
+
+        async getDetails() {
+            try {
+                this.profileDataLoading = true;
+                const response = await axios.get(apiRoutes.user, null, {headers: apiServices.headerContent});
+                this.profileData = response.data.user;
+                this.profileParam = response.data.user;
+            } finally {
+                this.profileDataLoading = false;
+            }
+        },
+
+        async changeDetails() {
+            try {
+                this.profileError = null;
+                this.profileLoading = true;
+                await axios.post(apiRoutes.changeDetails, this.profileParam, {headers: apiServices.headerContent});
+            } catch (e) {
+                this.profileError = e.response.data.errors
+            } finally {
+                this.profileLoading = false;
+            }
+        },
+
+        async changePassword() {
+            try {
+                this.notMatch = null;
+                this.passwordError = null;
+                this.passwordLoading = true;
+                await axios.post(apiRoutes.changePassword, this.passwordParam, {headers: apiServices.headerContent});
+            } catch (e) {
+                console.log(e)
+                if(e.response.data.message) {
+                    this.notMatch = e.response.data.message;
+                } else {
+                    this.passwordError = e.response.data.errors
+                }
+            } finally {
+                this.passwordLoading = false;
+            }
+        }
 
     }
 }
