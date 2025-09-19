@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -20,21 +20,14 @@ class AuthController extends Controller
                 'password' => 'required',
             ]);
         } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            return response()->json( [ 'errors' => $e->errors() ], 422 );
         }
-
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json( [ 'message' => 'Invalid credentials' ], 401 );
         }
-
         $user = Auth::user();
         $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Logged in successfully',
-            'user' => $user,
-            'token' => $token,
-        ]);
+        return response()->json( [ 'message' => 'Logged in successfully', 'user' => $user, 'token' => $token ] );
     }
 
     public function registration(Request $request): JsonResponse
@@ -48,20 +41,13 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
         $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Registration successful',
-            'user' => $user,
-            'token' => $token,
-        ], 201);
+        return response()->json( [ 'message' => 'Registration successful', 'user' => $user, 'token' => $token ], 201 );
     }
 
     public function forgot(Request $request): JsonResponse
@@ -73,29 +59,17 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
-
         $user = User::where('email', $request->email)->first();
-
         if (!$user->email_verified_at) {
-
             $code = rand(100000, 999999);
             $user->verification_code = $code;
             $user->save();
-
-            return response()->json([
-                'message' => 'Email not verified. Verification code sent.',
-                'type' => 'verification',
-            ]);
+            return response()->json( [ 'message' => 'Email not verified. Verification code sent.', 'type' => 'verification' ] );
         }
-
         $resetCode = rand(100000, 999999);
         $user->reset_code = $resetCode;
         $user->save();
-
-        return response()->json([
-            'message' => 'Password reset code sent.',
-            'type' => 'reset',
-        ]);
+        return response()->json( [ 'message' => 'Password reset code sent.', 'type' => 'reset' ] );
     }
 
     public function reset(Request $request): JsonResponse
@@ -109,22 +83,17 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
-
         $user = User::where('email', $request->email)->first();
-
         if (!$user || is_null($user->email_verified_at)) {
             return response()->json(['message' => 'User not verified'], 400);
         }
-
         if ($user->reset_code !== $request->reset_code) {
             return response()->json(['message' => 'Invalid reset code'], 400);
         }
-
         $user->password = Hash::make($request->password);
         $user->reset_code = null; // clear code after use
         $user->save();
-
-        return response()->json(['message' => 'Password reset successful']);
+        return response()->json( [ 'message' => 'Password reset successful' ] );
     }
 
     public function verification(Request $request): JsonResponse
@@ -137,82 +106,61 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
-
         $user = User::where('email', $request->email)->first();
-
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
-
         if ($user->email_verified_at) {
             return response()->json(['message' => 'Email already verified']);
         }
-
         if ((string)$user->verification_code !== (string)$request->verification_code) {
             return response()->json(['message' => 'Invalid verification code'], 400);
         }
-
         $user->email_verified_at = now();
         $user->verification_code = null;
-
         $resetCode = rand(100000, 999999);
         $user->reset_code = $resetCode;
-
         $user->save();
-
-        return response()->json([
-            'message' => 'Email verified successfully',
-            'reset_code' => $resetCode
-        ]);
+        return response()->json( [ 'message' => 'Email verified successfully', 'reset_code' => $resetCode ] );
     }
 
     public function details(Request $request): JsonResponse
     {
         $user = $request->user();
-
         return response()->json(['user' => $user]);
     }
 
     public function changeDetails(Request $request): JsonResponse
     {
         $user = $request->user();
-
         try {
             $request->validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|email|unique:users,email,' . $user->id,
             ]);
         } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            return response()->json( ['errors' => $e->errors() ], 422);
         }
-
         $user->update($request->only('name', 'email'));
-
-        return response()->json(['message' => 'Details updated successfully', 'user' => $user]);
+        return response()->json( [ 'message' => 'Details updated successfully', 'user' => $user ] );
     }
 
     public function changePassword(Request $request): JsonResponse
     {
         $user = $request->user();
-
         try {
             $request->validate([
                 'current_password' => 'required',
                 'password' => 'required|confirmed|min:8',
             ]);
         } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            return response()->json( ['errors' => $e->errors() ], 422);
         }
-
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['message' => 'The provided password does not match your current password.'], 400);
+            return response()->json( [ 'message' => 'The provided password does not match your current password.' ], 400 );
         }
-
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json(['message' => 'Password changed successfully']);
+        $user->update( [ 'password' => Hash::make($request->password) ] );
+        return response()->json( [ 'message' => 'Password changed successfully' ] );
     }
 
     public function logout(Request $request): JsonResponse
@@ -220,8 +168,7 @@ class AuthController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return response()->json(['message' => 'Logged out successfully']);
+        return response()->json( [ 'message' => 'Logged out successfully' ] );
     }
 
 }
