@@ -11,7 +11,7 @@ Route::prefix('auth')->group(function() {
     Route::post('/verification', [AuthController::class, 'verification']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->prefix('profile')->group(function () {
     Route::get('/user-details', [AuthController::class, 'details']);
     Route::post('/change-details', [AuthController::class, 'changeDetails']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);

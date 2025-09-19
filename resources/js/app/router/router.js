@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = !!cookieServices.get('access_token');
     if (to.matched.some(record => record.name === 'authLayout')) {
         if (isAuthenticated) {
-            next({name: 'dashboard'});
+            next({name: 'home'});
         } else {
             next();
         }

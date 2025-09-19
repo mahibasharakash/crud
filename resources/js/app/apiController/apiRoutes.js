@@ -6,6 +6,8 @@ const apiRoutes = {
     reset: '/auth/reset',
     verification: '/auth/verification',
 
+    logout: '/profile/logout',
+
     crud: '/crud',
 
 }
