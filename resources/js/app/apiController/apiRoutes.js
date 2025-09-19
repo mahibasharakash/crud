@@ -9,6 +9,7 @@ const apiRoutes = {
     user: '/profile/user-details',
     changeDetails: '/profile/change-details',
     changePassword: '/profile/change-password',
+    deleteAccount: '/profile/delete-account',
     logout: '/profile/logout',
 
     crud: '/crud',

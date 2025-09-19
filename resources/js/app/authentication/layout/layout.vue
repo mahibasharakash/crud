@@ -33,7 +33,7 @@
     <!-- / header -->
 
     <!-- main -->
-    <main class="w-full bg-gray-100">
+    <main class="w-full">
         <div class="mx-auto max-w-7xl px-5 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] grid items-center duration-500 p-5 overflow-y-auto">
             <div class="w-full max-w-[420px] sm:min-w-[420px] mx-auto p-10 bg-white/55 backdrop-blur-xs shadow-xl rounded-lg border border-gray-200">
 

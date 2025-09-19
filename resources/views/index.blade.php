@@ -46,6 +46,6 @@
 
     </head>
 
-    <body id="app"></body>
+    <body class="bg-gray-100" id="app"></body>
 
 </html>

@@ -2,7 +2,7 @@
 
     <!-- header -->
     <header class="w-full sticky top-0 start-0 end-0 duration-500" :class="{ 'bg-white pt-0' : !isScrolled, 'bg-transparent pt-5' : isScrolled }">
-        <div class="mx-auto max-w-7xl px-5 w-full min-h-[80px] max-h-[80px] flex justify-between items-center duration-500" :class="{ 'rounded-0 bg-transparent shadow-none' : !isScrolled, 'rounded-xl bg-white shadow-2xl' : isScrolled }">
+        <div class="mx-auto max-w-7xl px-6 w-full min-h-[80px] max-h-[80px] flex justify-between items-center duration-500" :class="{ 'rounded-0 bg-transparent shadow-none' : !isScrolled, 'rounded-xl bg-white shadow-2xl' : isScrolled }">
 
             <!-- logo -->
             <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black text-2xl">
@@ -33,7 +33,7 @@
     <!-- / header -->
 
     <!-- main -->
-    <main class="w-full bg-gray-100">
+    <main class="w-full">
         <div class="mx-auto max-w-7xl px-5 pt-5 pb-16 w-full">
             <RouterView></RouterView>
         </div>

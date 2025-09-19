@@ -30,10 +30,10 @@
 
         <!-- button -->
         <div class="mb-5 w-full block">
-            <button type="submit" class="min-w-[110px] text-sm font-medium bg-blue-400 duration-500 hover:bg-blue-700 text-white px-10 rounded-md min-h-[45px] max-h-[45px] cursor-pointer inline-flex justify-center items-center" v-if="!loading">
+            <button type="submit" class="min-w-[130px] text-sm font-medium bg-blue-400 duration-500 hover:bg-blue-700 text-white px-10 rounded-md min-h-[45px] max-h-[45px] cursor-pointer inline-flex justify-center items-center" v-if="!loading">
                 Login
             </button>
-            <button type="button" class="min-w-[110px] text-sm font-medium bg-blue-400 duration-500 hover:bg-blue-700 text-white px-10 rounded-md min-h-[45px] max-h-[45px] cursor-pointer inline-flex justify-center items-center" v-if="loading">
+            <button type="button" class="min-w-[130px] text-sm font-medium bg-blue-400 duration-500 hover:bg-blue-700 text-white px-10 rounded-md min-h-[45px] max-h-[45px] cursor-pointer inline-flex justify-center items-center" v-if="loading">
                 <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
             </button>
         </div>

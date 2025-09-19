@@ -20,11 +20,11 @@
         <div class="border border-gray-200 w-full bg-white rounded-lg p-6 block mb-5">
 
             <!-- title -->
-            <div class="mb-1 block w-full font-semibold text-xl"> Profile Information </div>
+            <div class="mb-1 block w-full font-semibold text-md"> Profile Information </div>
             <!-- / title -->
 
             <!-- description -->
-            <div class="mb-6 block w-full font-normal text-sm"> Update your account's profile information and email address. </div>
+            <div class="mb-6 block w-full font-normal text-xs"> Update your account's profile information and email address. </div>
             <!-- / description -->
 
             <!-- form -->
@@ -64,14 +64,14 @@
         <!-- / update changes -->
 
         <!-- update password -->
-        <div class="border border-gray-200 w-full bg-white rounded-lg p-7 block">
+        <div class="border border-gray-200 w-full bg-white rounded-lg p-7 block mb-5">
 
             <!-- title -->
-            <div class="mb-1 block w-full font-semibold text-xl"> Update Password </div>
+            <div class="mb-1 block w-full font-semibold text-md"> Update Password </div>
             <!-- / title -->
 
             <!-- description -->
-            <div class="mb-6 block w-full font-normal text-sm"> Ensure your account is using a long, random password to stay secure. </div>
+            <div class="mb-6 block w-full font-normal text-xs"> Ensure your account is using a long, random password to stay secure. </div>
             <!-- / description -->
 
             <!-- not match error -->
@@ -125,6 +125,38 @@
         </div>
         <!-- / update password -->
 
+        <!-- account delete -->
+        <div class="border border-gray-200 w-full bg-white rounded-lg p-7 block">
+
+            <!-- title -->
+            <div class="mb-1 block w-full font-semibold text-md"> Delete Account </div>
+            <!-- / title -->
+
+            <!-- description -->
+            <div class="mb-6 block w-full font-normal text-xs max-w-[700px]"> Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain. </div>
+            <!-- / description -->
+
+            <!-- form -->
+
+            <form @submit.prevent="deleteAccount" class="w-full block max-w-[500px]">
+
+                <!-- button -->
+                <div class="w-full block">
+                    <button type="submit" class="cursor-pointer bg-red-500 duration-500 hover:bg-red-700 rounded-md text-sm text-white min-w-[190px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!accountDeleteLoading">
+                        Delete Account
+                    </button>
+                    <button type="button" class="cursor-pointer bg-red-500 duration-500 hover:bg-red-700 rounded-md text-sm text-white min-w-[190px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="accountDeleteLoading">
+                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    </button>
+                </div>
+                <!-- / button  -->
+
+            </form>
+            <!-- form -->
+
+        </div>
+        <!-- / account delete -->
+
     </div>
 
 </template>
@@ -135,6 +167,7 @@ import axios from "axios";
 
 import apiRoutes from "@/app/apiController/apiRoutes.js";
 import apiServices from "@/app/apiController/apiServices.js";
+import cookieServices from "@/app/apiController/cookieServices.js";
 
 export default {
     data() {
@@ -147,6 +180,7 @@ export default {
             profileError: null,
             passwordError: null,
             notMatch: null,
+            accountDeleteLoading: false,
             profileParam: {
                 name: '',
                 email: '',
@@ -197,7 +231,6 @@ export default {
                 this.passwordLoading = true;
                 await axios.post(apiRoutes.changePassword, this.passwordParam, {headers: apiServices.headerContent});
             } catch (e) {
-                console.log(e)
                 if(e.response.data.message) {
                     this.notMatch = e.response.data.message;
                 } else {
@@ -205,6 +238,18 @@ export default {
                 }
             } finally {
                 this.passwordLoading = false;
+            }
+        },
+
+        // change password api implementation
+        async deleteAccount() {
+            try {
+                this.accountDeleteLoading = true;
+                await axios.post(apiRoutes.deleteAccount, null, {headers: apiServices.headerContent});
+                cookieServices.remove('access_token');
+                this.$router.push({name:'login'});
+            } catch (e) {  } finally {
+                this.accountDeleteLoading = false;
             }
         }
 

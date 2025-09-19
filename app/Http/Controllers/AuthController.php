@@ -171,4 +171,17 @@ class AuthController extends Controller
         return response()->json( [ 'message' => 'Logged out successfully' ] );
     }
 
+    public function deleteAccount(Request $request): JsonResponse
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json( [ 'message' => 'User not found' ], 404);
+        }
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        $user->delete();
+        return response()->json( [ 'message' => 'Account deleted successfully' ], 200);
+    }
+
 }
