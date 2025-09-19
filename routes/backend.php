@@ -11,9 +11,13 @@ Route::prefix('auth')->group(function() {
     Route::post('/verification', [AuthController::class, 'verification']);
 });
 
-Route::middleware('auth:sanctum')->prefix('profile')->group(function () {
-    Route::get('/user-details', [AuthController::class, 'details']);
-    Route::post('/change-details', [AuthController::class, 'changeDetails']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::prefix('profile')->group(function() {
+        Route::get('/user-details', [AuthController::class, 'details']);
+        Route::post('/change-details', [AuthController::class, 'changeDetails']);
+        Route::post('/change-password', [AuthController::class, 'changePassword']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
+
 });

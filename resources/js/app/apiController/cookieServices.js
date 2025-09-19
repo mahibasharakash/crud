@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
 const cookieServices = {
+
     set(name, value, days = 30) {
         Cookies.set(name, value, { expires: days, path: "/" });
     },
@@ -12,6 +13,7 @@ const cookieServices = {
     remove(name) {
         Cookies.remove(name, { path: "/" });
     }
+
 };
 
 export default cookieServices;

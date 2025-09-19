@@ -32,11 +32,13 @@
     </header>
     <!-- / header -->
 
+    <!-- main -->
     <main class="w-full bg-gray-100 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] overflow-y-auto">
-        <div class="mx-auto max-w-7xl px-5 w-full">
+        <div class="mx-auto max-w-7xl px-5 pt-5 pb-16 w-full">
             <RouterView></RouterView>
         </div>
     </main>
+    <!-- / main -->
 
 </template>
 
@@ -51,16 +53,19 @@ import cookieServices from "@/app/apiController/cookieServices.js";
 export default {
     data() {
         return {
+            // data properties
             logoutLoading: false,
             profileLoading: false,
             profileData: null,
         }
     },
     mounted() {
+        // mounted properties
         this.profileData = JSON.parse(cookieServices.get('user'))
     },
     methods: {
 
+        // logout api implementation
         async logoutApi() {
             try {
                 this.logoutLoading = true;

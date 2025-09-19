@@ -1,21 +1,38 @@
 <template>
 
-    <div class="max-w-7xl mx-auto w-full py-10">
+    <div class="max-w-7xl mx-auto w-full">
 
+        <!-- update changes -->
         <div class="border border-gray-200 w-full bg-white rounded-lg p-6 block mb-5">
+
+            <!-- title -->
             <div class="mb-1 block w-full font-semibold text-xl"> Profile Information </div>
+            <!-- / title -->
+
+            <!-- description -->
             <div class="mb-6 block w-full font-normal text-sm"> Update your account's profile information and email address. </div>
+            <!-- / description -->
+
+            <!-- form -->
             <form @submit.prevent="changeDetails" class="w-full block max-w-[500px]">
+
+                <!-- name -->
                 <div class="mb-3 w-full block">
                     <label for="name" class="block mb-2 w-full text-sm"> Name </label>
                     <input id="name" type="text" name="name" v-model="profileParam.name" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" />
                     <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="profileError?.name"> {{profileError?.name[0]}} </div>
                 </div>
+                <!-- / name -->
+
+                <!-- email -->
                 <div class="mb-3 w-full block">
                     <label for="email" class="block mb-2 w-full text-sm"> Email </label>
                     <input id="email" type="email" name="email" v-model="profileParam.email" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" />
                     <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="profileError?.email"> {{profileError?.email[0]}} </div>
                 </div>
+                <!-- / email -->
+
+                <!-- button -->
                 <div class="w-full block">
                     <button type="submit" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!profileLoading">
                         Update
@@ -24,31 +41,60 @@
                         <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
-            </form>
-        </div>
+                <!-- / button -->
 
+            </form>
+            <!-- / form -->
+
+        </div>
+        <!-- / update changes -->
+
+        <!-- update password -->
         <div class="border border-gray-200 w-full bg-white rounded-lg p-7 block">
+
+            <!-- title -->
             <div class="mb-1 block w-full font-semibold text-xl"> Update Password </div>
+            <!-- / title -->
+
+            <!-- description -->
             <div class="mb-6 block w-full font-normal text-sm"> Ensure your account is using a long, random password to stay secure. </div>
+            <!-- / description -->
+
+            <!-- not match error -->
             <div class="mb-3 text-red-600 bg-red-100 text-sm font-medium p-4 max-w-[500px] rounded-md" v-if="notMatch">
                 {{notMatch}}
             </div>
+            <!-- / not match error -->
+
+            <!-- form -->
+
             <form @submit.prevent="changePassword" class="w-full block max-w-[500px]">
+
+                <!-- current password -->
                 <div class="mb-3 w-full block">
                     <label for="current_password" class="block mb-2 w-full text-sm"> Current Password </label>
                     <input id="current_password" type="password" name="current_password" v-model="passwordParam.current_password" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
                     <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.current_password"> {{passwordError?.current_password[0]}} </div>
                 </div>
+                <!-- / current password -->
+
+                <!-- password -->
                 <div class="mb-3 w-full block">
                     <label for="password" class="block mb-2 w-full text-sm"> Password </label>
                     <input id="password" type="password" name="password" v-model="passwordParam.password" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
                     <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.password"> {{passwordError?.password[0]}} </div>
                 </div>
+                <!-- / password -->
+
+                <!-- password confirmation -->
                 <div class="mb-3 w-full block">
                     <label for="password_confirmation" class="block mb-2 w-full text-sm"> Password Confirmation </label>
                     <input id="password_confirmation" type="password" name="password_confirmation" v-model="passwordParam.password_confirmation" class="text-xs w-full block min-h-[45px] max-h-[45px] border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-600 duration-500 px-4 rounded-md" autocomplete="off" />
                     <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="passwordError?.password_confirmation"> {{passwordError?.password_confirmation[0]}} </div>
                 </div>
+                <!-- / password confirmation -->
+
+                <!-- button -->
                 <div class="w-full block">
                     <button type="submit" class="cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 rounded-md text-sm text-white min-w-[130px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!passwordLoading">
                         Update
@@ -57,8 +103,14 @@
                         <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
+                <!-- / button  -->
+
             </form>
+            <!-- form -->
+
         </div>
+        <!-- / update password -->
+
     </div>
 
 </template>
@@ -73,29 +125,32 @@ import apiServices from "@/app/apiController/apiServices.js";
 export default {
     data() {
         return {
+            // data properties
             profileDataLoading: false,
+            profileLoading: false,
+            passwordLoading: false,
             profileData: null,
+            profileError: null,
+            passwordError: null,
+            notMatch: null,
             profileParam: {
                 name: '',
                 email: '',
             },
-            profileError: null,
-            profileLoading: false,
             passwordParam: {
                 current_password: '',
                 password: '',
                 password_confirmation: '',
             },
-            passwordError: null,
-            passwordLoading: false,
-            notMatch: null,
         }
     },
     mounted() {
+        // mounted properties
         this.getDetails();
     },
     methods: {
 
+        // get details api implementation
         async getDetails() {
             try {
                 this.profileDataLoading = true;
@@ -107,6 +162,7 @@ export default {
             }
         },
 
+        // change details api implementation
         async changeDetails() {
             try {
                 this.profileError = null;
@@ -119,6 +175,7 @@ export default {
             }
         },
 
+        // change password api implementation
         async changePassword() {
             try {
                 this.notMatch = null;
