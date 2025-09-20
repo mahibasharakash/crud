@@ -163,6 +163,30 @@
                 <!-- body -->
                 <div class="w-full block">
 
+                    <!-- upload photo -->
+                    <div class="mb-3 w-full block">
+                        <div v-if="attach_preview" class="border border-gray-200 rounded-lg overflow-hidden max-h-[200px] min-h-[200px] relative">
+                            <img :src="attach_preview" class="w-full object-cover bg-cover max-h-[200px] min-h-[200px]" alt="attached-file" />
+                            <div class="absolute inset-0 flex justify-center items-center">
+                                <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-red-500 cursor-pointer text-white hover:bg-red-700 rounded-full" @click="removeFile()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <label v-else for="upload-photo" class="border border-gray-200 bg-gray-100 duration-500 overflow-hidden rounded-lg cursor-pointer font-medium hover:bg-gray-300 w-full min-h-[200px] max-h-[200px] text-sm text-center flex justify-center items-center flex-col">
+                            <input type="file" name="image" id="upload-photo" hidden @change="attachFile($event)" />
+                            <span class="mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                </svg>
+                            </span>
+                            <span> Upload Photo <br/> ( max: 2048kb or 2MB ) </span>
+                        </label>
+                    </div>
+                    <!-- / upload photo -->
+
                     <!-- title -->
                     <div class="mb-3 w-full block">
                         <label for="title" class="mb-2 w-full block text-sm"> Title </label>
@@ -173,9 +197,17 @@
 
                     <!-- description -->
                     <div class="mb-3 w-full block">
-                        <label for="description" class="mb-2 w-full block text-sm"> Description </label>
-                        <textarea name="description" id="description" v-model="formData.description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="4" autocomplete="off"></textarea>
-                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.description"> {{error?.description[0]}} </div>
+                        <label for="short_description" class="mb-2 w-full block text-sm"> Short Description </label>
+                        <textarea name="short_description" id="short_description" v-model="formData.short_description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="3" autocomplete="off"></textarea>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.short_description"> {{error?.short_description[0]}} </div>
+                    </div>
+                    <!-- / description -->
+
+                    <!-- description -->
+                    <div class="mb-3 w-full block">
+                        <label for="long_description" class="mb-2 w-full block text-sm"> Long Description </label>
+                        <textarea name="long_description" id="long_description" v-model="formData.long_description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="5" autocomplete="off"></textarea>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.long_description"> {{error?.long_description[0]}} </div>
                     </div>
                     <!-- / description -->
 
@@ -272,6 +304,7 @@ export default {
             deleteLoading: false,
             showLoading: false,
             searchTimeout: null,
+            attach_preview: null,
             tableData: [],
             params: {
                 page: 1,
@@ -286,8 +319,10 @@ export default {
             },
             formData: {
                 id: null,
+                image: null,
                 title: '',
-                description: '',
+                short_description: '',
+                long_description: '',
             },
             error: {},
         }
@@ -304,10 +339,13 @@ export default {
             if(data) {
                 this.showApi(data);
             } else {
+                this.attach_preview = null;
                 this.formData = {
                     id: null,
+                    image: null,
                     title: '',
-                    description: '',
+                    short_description: '',
+                    long_description: '',
                 }
             }
             this.isActiveManageModal = true;
@@ -329,6 +367,18 @@ export default {
             this.isActiveDeleteModal = false;
         },
 
+        // attach file
+        attachFile(e) {
+            this.attach_preview = URL.createObjectURL(e.target.files[0]);
+            this.formData.image = e.target.files[0];
+        },
+
+        // remove file
+        removeFile() {
+            this.attach_preview = null;
+            this.formData.image = null;
+        },
+
         // manage api implementation
         async manageApi() {
             if(this.formData.id) {
@@ -343,12 +393,16 @@ export default {
             try {
                 this.error = null;
                 this.manageLoading = true;
-                await axios.post(apiRoutes.createCrud, this.formData, {headers: apiServices.headerContent});
-                this.formData = { title: '', description: '' };
+                let formData = new FormData();
+                formData.append("title", this.formData.title);
+                formData.append("short_description", this.formData.short_description);
+                formData.append("long_description", this.formData.long_description);
+                formData.append("image", this.formData.image);
+                await axios.post(apiRoutes.createCrud,formData,{headers:{'Content-Type':'multipart/form-data'}});
                 this.closeManageModal();
                 await this.listApi();
             } catch(e) {
-                this.error = e.response.data.errors;
+                console.log(e);
             } finally {
                 this.manageLoading = false;
             }
@@ -358,12 +412,16 @@ export default {
         async updateApi() {
             try {
                 this.manageLoading = true;
-                await axios.put(apiRoutes.updateCrud+`/${this.formData.id}`, this.formData, {headers: apiServices.headerContent});
-                this.formData = { title: '', description: '' };
+                const formData = new FormData();
+                formData.append('title', this.formData.title);
+                formData.append('short_description', this.formData.short_description);
+                formData.append('long_description', this.formData.long_description);
+                formData.append("image", this.formData.image);
+                await axios.post(apiRoutes.updateCrud+`/${this.formData.id}?_method=PUT`,formData,{headers:{'Content-Type': 'multipart/form-data'}});
                 this.closeManageModal();
                 await this.listApi();
             } catch(e) {
-                this.error = e.response.data.errors;
+                console.log(e);
             } finally {
                 this.manageLoading = false;
             }

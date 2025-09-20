@@ -8,7 +8,10 @@ class Crud extends Model
 {
     protected $fillable = [
         'title',
-        'description',
+        'slug',
+        'image',
+        'short_description',
+        'long_description',
         'user_id',
     ];
 
