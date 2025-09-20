@@ -1,6 +1,6 @@
 <template>
     <!-- header -->
-    <header class="w-full sticky top-0 start-0 end-0 duration-500" :class="{ 'bg-white pt-0': !isScrolled, 'bg-transparent pt-5': isScrolled }">
+    <header class="w-full sticky top-0 start-0 end-0 duration-500 z-50" :class="{ 'bg-white pt-0': !isScrolled, 'bg-transparent pt-5': isScrolled }">
         <div class="mx-auto max-w-7xl px-6 w-full min-h-[80px] max-h-[80px] flex justify-between items-center duration-500" :class="{ 'rounded-0 bg-transparent shadow-none': !isScrolled, 'rounded-xl bg-white shadow-2xl': isScrolled }">
 
             <!-- logo -->

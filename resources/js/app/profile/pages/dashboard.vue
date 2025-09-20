@@ -12,6 +12,7 @@
     </div>
     <!-- / breadcrumb -->
 
+    <!-- search and control modal -->
     <div class="flex justify-between items-center mb-3">
 
         <!-- search -->
@@ -32,6 +33,7 @@
         <!-- / button -->
 
     </div>
+    <!-- / search and control modal -->
 
     <!-- loading  -->
     <div class="w-full min-h-[calc(100vh-320px)] max-h-[calc(100vh-320px)] flex justify-center items-center bg-white shadow-md rounded-md" v-if="listLoading">
