@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crud;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class CrudController extends Controller
 {
@@ -25,7 +23,8 @@ class CrudController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('short_description', 'like', "%{$search}%")
-                    ->orWhere('long_description', 'like', "%{$search}%");
+                    ->orWhere('long_description', 'like', "%{$search}%")
+                ;
             });
         }
         $perPage = $request->get('per_page', 10);
@@ -47,36 +46,33 @@ class CrudController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
-            'short_description' => 'nullable|string|max:500',
+            'short_description' => 'required|string',
             'long_description' => 'nullable|string',
-            'image' => 'nullable|max:2048',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-        }
-        $data = $validator->validated();
-        DB::beginTransaction();
-        try {
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $image = $request->file('image');
-                $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('images', $filename, 'public');
 
-                if ($path) {
-                    $data['image'] = Storage::url($path);
-                }
-            }
-            $data['slug'] = Str::slug($data['title']);
-            $data['user_id'] = Auth::id();
-            $item = Crud::create($data);
-            DB::commit();
-            return response()->json(['success' => true, 'data' => $item], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            Storage::disk('public')->put('images/' . $filename, file_get_contents($file));
+            $imagePath = 'images/' . $filename;
         }
+
+        $item = Crud::create([
+            'image' => $imagePath,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'user_id' => Auth::id(),
+        ]);
+
+        return response()->json(['message' => 'Item created successfully', 'data' => $item], 201);
     }
 
     /**
@@ -86,9 +82,9 @@ class CrudController extends Controller
     {
         $item = Crud::where('id', $id)->where('user_id', Auth::id())->first();
         if (!$item) {
-            return response()->json(['success' => false, 'message' => 'Item not found'], 404);
+            return response()->json(['message' => 'Not found'], 404);
         }
-        return response()->json(['success' => true, 'data' => $item]);
+        return response()->json(['data' => $item]);
     }
 
     /**
@@ -96,40 +92,30 @@ class CrudController extends Controller
      */
     public function update(Request $request, $id): JsonResponse
     {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required|string|max:255',
+            'short_description' => 'required|string',
+            'long_description' => 'nullable|string',
+        ]);
         $item = Crud::where('id', $id)->where('user_id', Auth::id())->first();
         if (!$item) {
-            return response()->json(['success' => false, 'message' => 'Item not found or unauthorized'], 404);
+            return response()->json(['message' => 'Not found or unauthorized'], 404);
         }
-        $validator = Validator::make($request->all(), [
-            'title' => 'sometimes|string|max:255',
-            'short_description' => 'nullable|string|max:500',
-            'long_description' => 'nullable|string',
-            'image' => 'nullable|max:2048',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-        }
-        $data = $validator->validated();
-        DB::beginTransaction();
-        try {
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $image = $request->file('image');
-                $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('images', $filename, 'public');
-                if ($path) {
-                    $data['image'] = Storage::url($path);
-                }
+        $updateData = $request->only(['title', 'short_description', 'long_description']);
+        if ($request->hasFile('image')) {
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
             }
-            if (isset($data['title'])) {
-                $data['slug'] = Str::slug($data['title']);
-            }
-            $item->update($data);
-            DB::commit();
-            return response()->json(['success' => true, 'data' => $item]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            Storage::disk('public')->put('images/' . $filename, file_get_contents($file));
+            $updateData['image'] = 'images/' . $filename;
         }
+        $updateData['slug'] = Str::slug($request->title);
+        $item->update($updateData);
+        return response()->json(['message' => 'Item updated successfully', 'data' => $item]);
     }
 
     /**
@@ -139,31 +125,13 @@ class CrudController extends Controller
     {
         $item = Crud::where('id', $id)->where('user_id', Auth::id())->first();
         if (!$item) {
-            return response()->json(['success' => false, 'message' => 'Item not found or unauthorized'], 404);
+            return response()->json(['message' => 'Not found or unauthorized'], 404);
         }
-        DB::beginTransaction();
-        try {
-            if ($item->image) {
-                $this->deleteImage($item->image);
-            }
-            $item->delete();
-            DB::commit();
-
-            return response()->json(['success' => true, 'message' => 'Item deleted successfully']);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        if ($item->image) {
+            Storage::disk('public')->delete($item->image);
         }
-    }
-
-    private function deleteImage(string $imageUrl): void
-    {
-        if (empty($imageUrl)) return;
-        $path = str_replace('/storage/', '', parse_url($imageUrl, PHP_URL_PATH));
-        if (empty($path)) return;
-        if (Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
-        }
+        $item->delete();
+        return response()->json(['message' => 'Item deleted successfully']);
     }
 
 }

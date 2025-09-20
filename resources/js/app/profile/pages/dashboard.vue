@@ -397,7 +397,10 @@ export default {
                 formData.append("title", this.formData.title);
                 formData.append("short_description", this.formData.short_description);
                 formData.append("long_description", this.formData.long_description);
-                formData.append("image", this.formData.image);
+                if (this.formData.image) {
+                    console.log(this.formData.image)
+                    formData.append("image", this.formData.image);
+                }
                 await axios.post(apiRoutes.createCrud,formData,{headers:{'Content-Type':'multipart/form-data'}});
                 this.closeManageModal();
                 await this.listApi();
@@ -416,7 +419,10 @@ export default {
                 formData.append('title', this.formData.title);
                 formData.append('short_description', this.formData.short_description);
                 formData.append('long_description', this.formData.long_description);
-                formData.append("image", this.formData.image);
+                if (this.formData.image) {
+                    console.log(this.formData.image)
+                    formData.append("image", this.formData.image);
+                }
                 await axios.post(apiRoutes.updateCrud+`/${this.formData.id}?_method=PUT`,formData,{headers:{'Content-Type': 'multipart/form-data'}});
                 this.closeManageModal();
                 await this.listApi();
@@ -473,7 +479,8 @@ export default {
             try {
                 this.showLoading = true;
                 const response = await axios.get(apiRoutes.showCrud+`/${data}`, {headers: apiServices.headerContent});
-                this.formData = response.data.data
+                this.formData = response.data.data;
+                this.attach_preview = `/storage/${response.data.data.image}`;
             } finally {
                 this.showLoading = false;
             }
