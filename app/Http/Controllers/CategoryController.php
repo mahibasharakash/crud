@@ -75,4 +75,10 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Item deleted successfully']);
     }
 
+    public function getCategory(Request $request): JsonResponse
+    {
+        $items = Category::where( 'user_id', Auth::id() )->orderBy('id', 'desc')->orderBy('created_at', 'desc')->get();
+        return response()->json( [ 'data' => $items ] );
+    }
+
 }

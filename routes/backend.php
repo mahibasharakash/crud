@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CategoryController::class, 'show'])->name('SHOW.API.CATEGORY');
         Route::put('/update/{id}', [CategoryController::class, 'update'])->name('UPDATE.API.CATEGORY');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('DELETE.API.CATEGORY');
+        Route::get('/get-category', [CategoryController::class, 'getCategory'])->name('GET.CATEGORY.API.CATEGORY');
     });
 
 });

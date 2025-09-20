@@ -43,6 +43,7 @@ class CrudController extends Controller
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
         ]);
@@ -60,6 +61,7 @@ class CrudController extends Controller
         $item = Crud::create([
             'image' => $imagePath,
             'title' => $request->title,
+            'category_id' => $request->category_id,
             'slug' => Str::slug($request->title),
             'short_description' => $request->short_description,
             'long_description' => $request->long_description,
@@ -83,6 +85,7 @@ class CrudController extends Controller
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'short_description' => 'required|string',
             'long_description' => 'nullable|string',
         ]);
@@ -90,7 +93,7 @@ class CrudController extends Controller
         if (!$item) {
             return response()->json(['message' => 'Not found or unauthorized'], 404);
         }
-        $updateData = $request->only(['title', 'short_description', 'long_description']);
+        $updateData = $request->only(['title', 'short_description', 'long_description', 'category_id']);
         if ($request->hasFile('image')) {
             if ($item->image) {
                 Storage::disk('public')->delete($item->image);

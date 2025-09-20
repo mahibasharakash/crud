@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Crud;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class HomeController extends Controller
     {
         $perPage = $request->get('per_page', 10);
         $page = $request->get('page', 1);
-        $query = Crud::with('getInformation');
+        $query = Crud::with(['getInformation','getCategory']);
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -39,6 +40,11 @@ class HomeController extends Controller
                     break;
             }
         }
+        if ($request->has('category') && !empty($request->category)) {
+            $query->whereHas('getCategory', function ($q) use ($request) {
+                $q->where('title', 'like', "%{$request->category}%");
+            });
+        }
         $items = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
         $data = $items->map(function($item) {
             return [
@@ -53,6 +59,10 @@ class HomeController extends Controller
                     'id' => $item->getInformation->id,
                     'name' => $item->getInformation->name,
                     'email' => $item->getInformation->email,
+                ] : null,
+                'category' => $item->getCategory ? [
+                    'id' => $item->getCategory->id,
+                    'title' => $item->getCategory->title,
                 ] : null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
@@ -71,11 +81,19 @@ class HomeController extends Controller
 
     public function show($slug): JsonResponse
     {
-        $item = Crud::with('getInformation')->where('slug', $slug)->first();
+        $item = Crud::with(['getInformation','getCategory'])->where('slug', $slug)->first();
         if (!$item) {
             return response()->json(['message' => 'Not found'], 404);
         }
         return response()->json(['data' => $item]);
+    }
+
+    public function allCategory(Request $request): JsonResponse
+    {
+        $items = Category::select('id', 'title')->whereIn('id', function ($query) {
+            $query->selectRaw('MIN(id)')->from('categories')->groupBy('title');
+        })->orderBy('id', 'asc')->get();
+        return response()->json( [ 'data' => $items ] );
     }
 
 }

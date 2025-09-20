@@ -25,9 +25,11 @@ const apiRoutes = {
     showCategory: '/category/show',
     updateCategory: '/category/update',
     deleteCategory: '/category/delete',
+    getCategory: '/category/get-category',
 
     allBlog: '/all-blog',
     singleBlog: '/single-blog',
+    allCategory: '/all-category',
 
 }
 

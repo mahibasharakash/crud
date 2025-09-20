@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
+            $table->string('category_id');
             $table->string('image')->nullable();
             $table->text('short_description');
             $table->longText('long_description')->nullable();

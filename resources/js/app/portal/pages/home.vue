@@ -234,25 +234,12 @@
 
                             <!-- category -->
                             <div class="w-full flex flex-wrap gap-2">
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Food
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Dress
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Shelter
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Education
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Treatment
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
-                                    Technology
-                                </button>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
+                                <template v-for="(each,index) in categoryData" :key="index">
+                                    <button type="button" class="cursor-pointer capitalize ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory(each.title)">
+                                        {{each.title}}
+                                    </button>
+                                </template>
+                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory('')">
                                     All
                                 </button>
                             </div>
@@ -285,8 +272,11 @@ export default {
         return {
             // data properties
             tableData: [],
+            categoryData: [],
+            showLoading: false,
             listLoading: false,
             params: {
+                category: '',
                 page: 1,
                 per_page: 10,
                 search: '',
@@ -303,6 +293,7 @@ export default {
     mounted() {
         // mounted properties
         this.listApi();
+        this.getCategory();
     },
     methods: {
 
@@ -366,7 +357,27 @@ export default {
             let parts = name.trim().split(' ');
             if (parts.length < 2) return parts[0][0] || '';
             return parts[0][0] + parts[1][0];
-        }
+        },
+
+        // category api implementation
+        async getCategory() {
+            try {
+                this.showLoading = true;
+                const response = await axios.get(apiRoutes.allCategory, null, {headers: apiServices.headerContent});
+                this.categoryData = response?.data?.data
+            } finally {
+                this.showLoading = false;
+            }
+        },
+
+        // select category filter list api implementation
+        selectCategory(category) {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.params.category = category;
+                this.listApi();
+            }, 500);
+        },
 
     }
 }

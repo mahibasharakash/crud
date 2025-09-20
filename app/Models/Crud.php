@@ -13,6 +13,7 @@ class Crud extends Model
         'short_description',
         'long_description',
         'user_id',
+        'category_id',
     ];
 
     /**
@@ -27,7 +28,7 @@ class Crud extends Model
      *
      * @return string
      */
-    public function getHumanCreatedAtAttribute()
+    public function getHumanCreatedAtAttribute(): string
     {
         return $this->created_at->diffForHumans();
     }
@@ -35,6 +36,16 @@ class Crud extends Model
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getInformation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
 }

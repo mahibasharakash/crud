@@ -22,7 +22,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </div>
-            <input type="text" name="search" v-model="params.search" @input="searchData()" class="ps-16 w-full min-h-[50px] max-h-[50px] outline-0 bg-white border-0 shadow-md pe-5 placeholder-black text-sm rounded-md" placeholder="Search Here" required autocomplete="off" />
+            <input type="text" name="search" v-model="params.search" @input="searchData()" class="ps-16 w-full min-h-[50px] max-h-[50px] outline-0 bg-white border-0 shadow-md pe-5 placeholder-black text-sm rounded-md" placeholder="Search Here" autocomplete="off" />
         </div>
         <!-- / search -->
 
@@ -254,6 +254,24 @@
                     </div>
                     <!-- / upload photo -->
 
+                    <!-- select -->
+                    <div class="mb-3 w-full block">
+                        <label for="category_id" class="mb-2 w-full block text-sm"> Category </label>
+                        <div class="w-full relative">
+                            <select name="category_id" id="category_id" v-model="formData.category_id" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner appearance-none cursor-pointer" autocomplete="off">
+                                <option :value="null"> Select Category </option>
+                                <option v-for="(each, index) in categoryData" :key="index" :value="each.id"> {{each.title}} </option>
+                            </select>
+                            <div class="absolute top-0 bottom-0 end-0 pe-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.category_id"> {{error?.category_id[0]}} </div>
+                    </div>
+                    <!-- / select -->
+
                     <!-- title -->
                     <div class="mb-3 w-full block">
                         <label for="title" class="mb-2 w-full block text-sm"> Title </label>
@@ -388,15 +406,18 @@ export default {
                 id: null,
                 image: null,
                 title: '',
+                category_id: null,
                 short_description: '',
                 long_description: '',
             },
+            categoryData: [],
             error: {},
         }
     },
     mounted() {
         // mounted properties
         this.listApi();
+        this.getCategory();
     },
     methods: {
 
@@ -424,6 +445,7 @@ export default {
                     id: null,
                     image: null,
                     title: '',
+                    category_id: null,
                     short_description: '',
                     long_description: '',
                 }
@@ -475,6 +497,7 @@ export default {
                 this.manageLoading = true;
                 let formData = new FormData();
                 formData.append("title", this.formData.title);
+                formData.append("category_id", this.formData.category_id);
                 formData.append("short_description", this.formData.short_description);
                 formData.append("long_description", this.formData.long_description);
                 if (this.formData.image) {
@@ -496,6 +519,7 @@ export default {
                 this.manageLoading = true;
                 const formData = new FormData();
                 formData.append('title', this.formData.title);
+                formData.append("category_id", this.formData.category_id);
                 formData.append('short_description', this.formData.short_description);
                 formData.append('long_description', this.formData.long_description);
                 if (this.formData.image) {
@@ -575,6 +599,17 @@ export default {
                 await this.listApi();
             } finally {
                 this.deleteLoading = false;
+            }
+        },
+
+        // category api implementation
+        async getCategory() {
+            try {
+                this.showLoading = true;
+                const response = await axios.get(apiRoutes.getCategory, null, {headers: apiServices.headerContent});
+                this.categoryData = response?.data?.data
+            } finally {
+                this.showLoading = false;
             }
         },
 
