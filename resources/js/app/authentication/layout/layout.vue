@@ -1,37 +1,5 @@
 <template>
 
-    <!-- header -->
-    <header class="bg-white w-full">
-        <div class="mx-auto max-w-7xl px-5 w-full min-h-[80px] max-h-[80px] flex justify-between items-center">
-
-            <!-- logo -->
-            <RouterLink :to="{name:'login'}" class="decoration-0 text-black text-xl">
-                Laravel
-            </RouterLink>
-            <!-- / logo -->
-
-            <!-- group links -->
-            <div class="flex justify-end items-center gap-8">
-
-                <!-- login -->
-                <RouterLink :to="{name:'login'}" class="decoration-0 text-sm" :class="{ 'text-blue-600' : $route.name === 'login', 'text-black' : $route.name !== 'login' }">
-                    SignIn
-                </RouterLink>
-                <!-- / login -->
-
-                <!-- registration -->
-                <RouterLink :to="{name:'registration'}" class="decoration-0 text-sm" :class="{ 'text-blue-600' : $route.name === 'registration', 'text-black' : $route.name !== 'registration' }">
-                    SignUp
-                </RouterLink>
-                <!-- / registration -->
-
-            </div>
-            <!-- / group links -->
-
-        </div>
-    </header>
-    <!-- / header -->
-
     <!-- main -->
     <main class="w-full">
         <div class="mx-auto max-w-7xl px-5 min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] grid items-center duration-500 p-5 overflow-y-auto">

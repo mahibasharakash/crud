@@ -10,27 +10,34 @@ import reset from "../authentication/pages/reset.vue";
 import verification from "../authentication/pages/verification.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
-import dashboard from "../portal/pages/dashboard.vue";
-import profile from "../portal/pages/profile.vue";
+import home from "../portal/pages/home.vue";
+
+import profileLayout from "../profile/layout/layout.vue";
+import dashboard from "../profile/pages/dashboard.vue";
+import profile from "../profile/pages/profile.vue";
 
 const title = 'Crud - ';
 
 const routes = [
     {
-        path: '/auth', name: 'authLayout', component: authLayout,
-        children: [
-            { path: 'login', name: 'login', component: login, meta: { title: + 'Login' } },
-            { path: 'registration', name: 'registration', component: registration, meta: { title: + 'Registration' } },
-            { path: 'forgot', name: 'forgot', component: forgot, meta: { title: + 'Forgot' } },
-            { path: 'reset', name: 'reset', component: reset, meta: { title: + 'Reset' } },
-            { path: 'verification', name: 'verification', component: verification, meta: { title: + 'Verification' } },
-        ]
-    },
-    {
         path: '/', name: 'portalLayout', component: portalLayout,
         children: [
-            { path: '', name: 'dashboard', component: dashboard, meta: { title: title + 'Dashboard' } },
-            { path: 'profile', name: 'profile', component: profile, meta: { title: title + 'Profile' } },
+            { path: '', name: 'home', component: home, meta: { title: title + 'Home' } },
+            { path: '/auth', name: 'authLayout', component: authLayout,
+                children: [
+                    { path: 'login', name: 'login', component: login, meta: { title: + 'Login' } },
+                    { path: 'registration', name: 'registration', component: registration, meta: { title: + 'Registration' } },
+                    { path: 'forgot', name: 'forgot', component: forgot, meta: { title: + 'Forgot' } },
+                    { path: 'reset', name: 'reset', component: reset, meta: { title: + 'Reset' } },
+                    { path: 'verification', name: 'verification', component: verification, meta: { title: + 'Verification' } },
+                ]
+            },
+            { path: '/user', name: 'profileLayout', component: profileLayout,
+                children: [
+                    { path: '', name: 'dashboard', component: dashboard, meta: { title: title + 'Dashboard' } },
+                    { path: 'profile', name: 'profile', component: profile, meta: { title: title + 'Profile' } },
+                ]
+            },
         ]
     },
 ];
@@ -55,7 +62,7 @@ router.beforeEach((to, from, next) => {
         } else {
             next();
         }
-    } else if (to.matched.some(record => record.name === 'portalLayout')) {
+    } else if (to.matched.some(record => record.name === 'profileLayout')) {
         if (!isAuthenticated) {
             next({name: 'login'});
         } else {

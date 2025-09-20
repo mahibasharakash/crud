@@ -84,9 +84,9 @@ export default {
                 this.invalidCredential = null;
                 this.loading = true;
                 const response = await axios.post(apiRoutes.login, this.formData, {headers: apiServices.headerContent});
-                cookieServices.set('access_token', response?.data?.token);
-                cookieServices.set('user', JSON.stringify(response?.data?.user));
-                this.$router.push({name:'dashboard'})
+                cookieServices.set("access_token", response?.data?.token);
+                cookieServices.set("user", JSON.stringify(response?.data?.user?.name));
+                this.$router.push({ name: "dashboard" });
             } catch (e) {
                 if(e.response.data.errors) {
                     this.error = e.response.data.errors;
@@ -96,7 +96,7 @@ export default {
             } finally {
                 this.loading = false;
             }
-        }
+        },
 
     }
 }
