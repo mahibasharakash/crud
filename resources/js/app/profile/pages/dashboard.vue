@@ -55,52 +55,119 @@
 
     <!-- crud -->
     <div class="w-full min-h-[calc(100vh-370px)] max-h-[calc(100vh-370px)] overflow-y-auto pe-3 py-3" v-if="tableData.length > 0 && !listLoading">
-        <table class="table table-auto w-full">
 
-            <!-- crud head -->
-            <thead>
-                <tr class="w-full block rounded-lg overflow-hidden duration-500 bg-white shadow-md">
-                    <th class="mb-3 rounded-s-lg overflow-hidden max-w-[400px] min-w-[400px] text-xs font-medium text-start py-5 px-7">
-                        Title
-                    </th>
-                    <th class="mb-3 max-w-[600px] min-w-[600px] text-xs font-medium text-start py-5 px-7">
-                        Description
-                    </th>
-                    <th class="mb-3 rounded-e-lg overflow-hidden max-w-[150px] min-w-[150px] text-xs font-medium text-start py-5 px-7">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <!-- / crud head -->
+        <div class="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
 
-            <!-- crud body -->
-            <tbody>
-                <tr v-for="(each, index) in tableData" :key="index" class="w-full mt-3 block rounded-lg shadow-md hover:shadow-lg overflow-hidden duration-500 bg-white  hover:bg-blue-50">
-                    <td class="rounded-s-lg overflow-hidden max-w-[400px] min-w-[400px] text-xs font-normal text-start py-5 px-7">
-                        <div class="truncate">
+            <template v-for="(each, index) in tableData" :key="index">
+
+                <!-- card -->
+                <div class="w-full bg-white rounded-md mb-5 shadow-lg group duration-500 hover:shadow-2xl shadow-gray-400 overflow-hidden">
+
+                    <div class="min-h-[250px] max-h-[250px] overflow-hidden relative">
+
+                        <!-- card image -->
+                        <img v-if="each.image" :src="`/storage/${each.image}`" class="w-full scale-100 duration-500 group-hover:scale-125 object-cover bg-cover min-h-[250px] max-h-[250px]" :alt="each.slug" />
+                        <div v-else class="w-full scale-100 duration-500 group-hover:scale-125 text-2xl font-semibold min-h-[250px] max-h-[250px] flex justify-center items-center">
+                            300x300
+                        </div>
+                        <!-- / card image -->
+
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-t from-blue-900 to-35% to-transparent opacity-50"></div>
+
+                        <div class="absolute top-0 end-0 p-3 gap-2 flex justify-end items-center">
+                            <button type="button" class="cursor-pointer rounded-full min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center outline-0 border-0 bg-gray-200 duration-500 hover:bg-gray-600 text-gray-600 hover:text-white" @click="openManageModal(each.id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                </svg>
+                            </button>
+                            <button type="button" class="cursor-pointer rounded-full min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center outline-0 border-0 bg-red-200 duration-500 hover:bg-red-600 text-red-600 hover:text-white" @click="openDeleteModal(each.id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="text-xs mt-5 pointer-events-none px-7 font-medium flex justify-between gap-3 opacity-70">
+
+                        <!-- card date -->
+                        <div> {{each.human_created_at}} </div>
+                        <!-- / card date -->
+
+                        <div class="flex items-center justify-end gap-3">
+
+                            <!-- card comments -->
+                            <div class="inline-flex justify-end items-center gap-2">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                    </svg>
+                                </div>
+                                <div> {{countNumber(2000)}} </div>
+                            </div>
+                            <!-- / card comments -->
+
+                            <!-- card share -->
+                            <div class="inline-flex justify-end items-center gap-2">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                    </svg>
+                                </div>
+                                <div> {{countNumber(1200)}} </div>
+                            </div>
+                            <!-- / card share -->
+
+                            <!-- card share -->
+                            <div class="inline-flex justify-end items-center gap-2">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                </div>
+                                <div> {{countNumber(10)}} </div>
+                            </div>
+                            <!-- / card share -->
+
+                        </div>
+                    </div>
+
+                    <!-- card title -->
+                    <div class="text-lg mt-3 block px-7 font-medium">
+                        <div class="text-truncate-line-2">
                             {{each.title}}
                         </div>
-                    </td>
-                    <td class="max-w-[600px] min-w-[600px] text-xs font-normal text-start py-5 px-7">
-                        <div class="truncate">
-                            {{each.description}}
-                        </div>
-                    </td>
-                    <td class="rounded-e-lg overflow-hidden max-w-[150px] min-w-[150px] text-xs font-normal text-start py-5 px-7">
-                        <div class="flex justify-start items-center gap-5">
-                            <a class="decoration-0 text-gray-600 cursor-pointer" @click="openManageModal(each.id)">
-                                Edit
-                            </a>
-                            <a class="decoration-0 text-red-600 cursor-pointer" @click="openDeleteModal(each.id)">
-                                Delete
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-            <!-- / crud body -->
+                    </div>
+                    <!-- / card title -->
 
-        </table>
+                    <!-- card description -->
+                    <div class="text-sm block my-3 px-7 font-normal">
+                        <div class="text-truncate-line-3 text-gray-600">
+                            {{each.short_description}}
+                        </div>
+                    </div>
+                    <!-- / card share -->
+
+                    <div class="pb-5 w-full flex justify-end items-center px-7">
+
+                        <!-- link -->
+                        <RouterLink :to="{ name: 'blogDetails', params: { slug: each.slug } }" class="min-w-[45px] bg-gray-100 rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center hover:bg-blue-500 hover:text-white duration-500 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" />
+                            </svg>
+                        </RouterLink>
+                        <!-- / link -->
+
+                    </div>
+                </div>
+                <!-- / card -->
+
+            </template>
+
+        </div>
+
     </div>
     <!-- / crud -->
 
@@ -333,6 +400,19 @@ export default {
     },
     methods: {
 
+        // count number
+        countNumber(num) {
+            if (num >= 1_000_000_000) {
+                return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'b';
+            } else if (num >= 1_000_000) {
+                return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'm';
+            } else if (num >= 1_000) {
+                return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+            } else {
+                return num.toString();
+            }
+        },
+
         // open manage modal
         openManageModal(data) {
             this.error = {};
@@ -480,7 +560,9 @@ export default {
                 this.showLoading = true;
                 const response = await axios.get(apiRoutes.showCrud+`/${data}`, {headers: apiServices.headerContent});
                 this.formData = response.data.data;
-                this.attach_preview = `/storage/${response.data.data.image}`;
+                if(response.data.data.image) {
+                    this.attach_preview = `/storage/${response.data.data.image}`;
+                }
             } finally {
                 this.showLoading = false;
             }
