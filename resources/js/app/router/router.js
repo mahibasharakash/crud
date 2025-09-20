@@ -11,6 +11,7 @@ import verification from "../authentication/pages/verification.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
 import home from "../portal/pages/home.vue";
+import blogDetails from "../portal/pages/blog-details.vue";
 
 import profileLayout from "../profile/layout/layout.vue";
 import dashboard from "../profile/pages/dashboard.vue";
@@ -23,6 +24,7 @@ const routes = [
         path: '/', name: 'portalLayout', component: portalLayout,
         children: [
             { path: '', name: 'home', component: home, meta: { title: title + 'Home' } },
+            { path: 'blog-details/:slug', name: 'blogDetails', component: blogDetails, meta: { title: title + 'Blog Details' } },
             { path: '/auth', name: 'authLayout', component: authLayout,
                 children: [
                     { path: 'login', name: 'login', component: login, meta: { title: + 'Login' } },

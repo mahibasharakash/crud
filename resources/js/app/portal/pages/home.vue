@@ -122,11 +122,11 @@
                                     <!-- / card author name -->
 
                                     <!-- link -->
-                                    <a href="javascript:void(0)" class="min-w-[45px] bg-gray-100 rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center hover:bg-blue-500 hover:text-white duration-500 cursor-pointer">
+                                    <RouterLink :to="{ name: 'blogDetails', params: { slug: 'decadent-caramel-pancake-stack-with-fresh-berries' } }" class="min-w-[45px] bg-gray-100 rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center hover:bg-blue-500 hover:text-white duration-500 cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" />
                                         </svg>
-                                    </a>
+                                    </RouterLink>
                                     <!-- / link -->
 
                                 </div>
