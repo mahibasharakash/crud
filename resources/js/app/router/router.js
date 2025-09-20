@@ -15,6 +15,7 @@ import blogDetails from "../portal/pages/blog-details.vue";
 
 import profileLayout from "../profile/layout/layout.vue";
 import dashboard from "../profile/pages/dashboard.vue";
+import category from "../profile/pages/category.vue";
 import profile from "../profile/pages/profile.vue";
 
 const routes = [
@@ -35,6 +36,7 @@ const routes = [
             { path: 'user', name: 'profileLayout', component: profileLayout,
                 children: [
                     { path: '', name: 'dashboard', component: dashboard, meta: { title: 'Dashboard' } },
+                    { path: 'category', name: 'category', component: category, meta: { title: 'Category' } },
                     { path: 'profile', name: 'profile', component: profile, meta: { title: 'Profile' } },
                 ]
             },

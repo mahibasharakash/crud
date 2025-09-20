@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\CategoryController;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('LOGIN.API.AUTH');
@@ -30,6 +31,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CrudController::class, 'show'])->name('SHOW.API.CRUD');
         Route::put('/update/{id}', [CrudController::class, 'update'])->name('UPDATE.API.CRUD');
         Route::delete('/delete/{id}', [CrudController::class, 'destroy'])->name('DELETE.API.CRUD');
+    });
+
+    Route::prefix('category')->group(function() {
+        Route::get('/list', [CategoryController::class, 'index'])->name('LIST.API.CATEGORY');
+        Route::post('/store', [CategoryController::class, 'store'])->name('STORE.API.CATEGORY');
+        Route::get('/show/{id}', [CategoryController::class, 'show'])->name('SHOW.API.CATEGORY');
+        Route::put('/update/{id}', [CategoryController::class, 'update'])->name('UPDATE.API.CATEGORY');
+        Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('DELETE.API.CATEGORY');
     });
 
 });

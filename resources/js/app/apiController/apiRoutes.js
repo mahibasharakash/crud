@@ -20,6 +20,12 @@ const apiRoutes = {
     updateCrud: '/crud/update',
     deleteCrud: '/crud/delete',
 
+    listCategory: '/category/list',
+    createCategory: '/category/store',
+    showCategory: '/category/show',
+    updateCategory: '/category/update',
+    deleteCategory: '/category/delete',
+
     allBlog: '/all-blog',
     singleBlog: '/single-blog',
 

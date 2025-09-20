@@ -54,6 +54,12 @@
                 </RouterLink>
                 <!-- / dashboard -->
 
+                <!-- category -->
+                <RouterLink v-if="profileData" :to="{ name: 'category' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'category', 'text-black': $route.name !== 'category' }">
+                    Category
+                </RouterLink>
+                <!-- / category -->
+
                 <!-- profile -->
                 <RouterLink v-if="profileData" :to="{ name: 'profile' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'profile', 'text-black': $route.name !== 'profile' }">
                     {{ profileData }}
