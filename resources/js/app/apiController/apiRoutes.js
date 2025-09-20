@@ -20,6 +20,9 @@ const apiRoutes = {
     updateCrud: '/crud/update',
     deleteCrud: '/crud/delete',
 
+    allBlog: '/all-blog',
+    singleBlog: '/single-blog',
+
 }
 
 export default apiRoutes;

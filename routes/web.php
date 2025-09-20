@@ -5,6 +5,8 @@ use App\Http\Controllers\AppController;
 
 require __DIR__.'/backend.php';
 
+require __DIR__.'/front.php';
+
 Route::get('auth/{any}', [AppController::class, 'index'])->where('any', '.*')->name('lvs.index.auth.any');
 Route::get('auth', function () { return redirect()->route('lvs.index.auth.any', 'login'); } );
 Route::get('', [AppController::class, 'index'])->where('any', '.*')->name('lvs.index');
