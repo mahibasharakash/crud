@@ -5,7 +5,7 @@
 
             <!-- logo -->
             <RouterLink :to="{ name: 'home' }" class="decoration-0 font-semibold text-black text-xl">
-                Laravel
+                Blog
             </RouterLink>
             <!-- / logo -->
 

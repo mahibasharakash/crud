@@ -59,7 +59,7 @@
 
                                 </div>
 
-                                <div class="text-xs mt-3 px-7 font-medium flex justify-between gap-3">
+                                <div class="text-xs mt-3 px-7 font-medium flex justify-between gap-3 opacity-70">
 
                                     <!-- card date -->
                                     <div> 25 Sep 2025 </div>
@@ -68,11 +68,25 @@
                                     <div class="flex items-center justify-end gap-3">
 
                                         <!-- card comments -->
-                                        <div> 2 Comments </div>
+                                        <div class="inline-flex justify-end items-center gap-2">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                                </svg>
+                                            </div>
+                                            <div> {{countNumber(2000)}} </div>
+                                        </div>
                                         <!-- / card comments -->
 
                                         <!-- card share -->
-                                        <div> 12 Shares </div>
+                                        <div class="inline-flex justify-end items-center gap-2">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                                </svg>
+                                            </div>
+                                            <div> {{countNumber(1200)}} </div>
+                                        </div>
                                         <!-- / card share -->
 
                                     </div>
@@ -98,7 +112,7 @@
 
                                     <!-- card author name -->
                                     <div class="inline-flex justify-start items-center">
-                                        <div class="min-w-[45px] bg-gray-100 rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center text-sm">
+                                        <div class="min-w-[45px] bg-blue-500 text-white rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center text-sm">
                                             MB
                                         </div>
                                         <div class="ms-2 text-sm"> Mahi Bashar Akash </div>
@@ -122,38 +136,43 @@
                     </div>
                     <!-- / card grid -->
 
-                    <!-- pagination -->
-                    <div class="w-full mt-10 flex justify-between items-center">
+                    <div class="w-full mt-5 flex justify-between items-center">
+
+                        <!-- pagination -->
                         <div class="flex justify-start items-center gap-1">
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                                 </svg>
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 1
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 2
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 3
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 4
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 5
                             </button>
-                            <button type="button" class="cursor-pointer text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
+                            <button type="button" class="cursor-pointer font-medium text-sm rounded-full bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white duration-500 outline-0 border-0 min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] inline-flex justify-center items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                                 </svg>
                             </button>
                         </div>
+                        <!-- / pagination -->
+
+                        <!-- count page with quantity -->
                         <div class="text-gray-800 text-xs font-medium">10 of 30 out of 300</div>
+                        <!-- / count page with quantity -->
+
                     </div>
-                    <!-- / pagination -->
 
                 </div>
                 <!-- / post card collection -->
@@ -241,6 +260,18 @@ export default {
 
     },
     methods: {
+
+        countNumber(num) {
+            if (num >= 1_000_000_000) {
+                return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'b';
+            } else if (num >= 1_000_000) {
+                return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'm';
+            } else if (num >= 1_000) {
+                return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+            } else {
+                return num.toString();
+            }
+        }
 
     }
 }
