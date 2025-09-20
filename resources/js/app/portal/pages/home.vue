@@ -9,16 +9,16 @@
                 <div class="w-full lg:w-2/3 pe-5 pt-5">
 
                     <!-- title with duration -->
-                    <div class="w-full px-6 py-5 gap-3 bg-white rounded-md mb-5 shadow-md">
+                    <div class="w-full gap-3 rounded-md mb-5">
                         <div class="w-full flex justify-between items-center">
 
                             <!-- title -->
-                            <div class="w-full block text-xl font-semibold"> Post </div>
+                            <div class="w-full block text-xl font-semibold ps-0.5"> Post </div>
                             <!-- / title -->
 
                             <!-- select duration -->
-                            <div class="max-w-[250px] w-full relative">
-                                <select name="time" class="w-full font-semibold border-0 bg-gray-100 outline-0 ring-0 focus-within:ring-3 ring-blue-500 duration-500 cursor-pointer rounded-md min-h-[50px] max-h-[50px] text-sm px-5 appearance-none" required autocomplete="off">
+                            <div class="max-w-[230px] w-full relative">
+                                <select name="time" class="w-full font-semibold border-0 bg-white outline-0 ring-0 focus-within:ring-3 ring-blue-500 duration-500 cursor-pointer rounded-md min-h-[50px] max-h-[50px] text-sm px-5 appearance-none" required autocomplete="off">
                                     <option :value="null"> Select Duration </option>
                                     <option :value="'today'"> Today </option>
                                     <option :value="'week'"> Week </option>
@@ -51,8 +51,10 @@
                                     <img :src="'/collection/food.jpeg'" class="w-full scale-100 duration-500 group-hover:scale-125 object-cover bg-cover min-h-[250px] max-h-[250px]" alt="food" />
                                     <!-- / card image -->
 
+                                    <div class="absolute inset-0 w-full h-full bg-gradient-to-t from-blue-900 to-35% to-transparent opacity-50"></div>
+
                                     <!-- card views -->
-                                    <div class="absolute bottom-0 start-0 p-3 pointer-events-none">
+                                    <div class="absolute top-0 end-0 p-3 pointer-events-none z-10">
                                         <div class="bg-white px-2.5 py-1.5 text-xs rounded-sm font-medium shadow-md shadow-gray-500"> 10 Views </div>
                                     </div>
                                     <!-- / card views -->
@@ -102,7 +104,7 @@
 
                                 <!-- card description -->
                                 <div class="text-sm block my-3 px-7 font-normal">
-                                    <div class="text-truncate-line-3">
+                                    <div class="text-truncate-line-3 text-gray-600">
                                         Indulge in a sumptuous breakfast experience with this towering stack of fluffy pancakes, generously drizzled with rich, golden caramel sauce. Each layer is perfectly cooked to a soft, airy texture, creating a delightful contrast with the slightly crisp edges. The pancakes are topped with a medley of fresh strawberries and nuts, adding bursts of flavor and a satisfying crunch in every bite.
                                     </div>
                                 </div>
@@ -229,6 +231,9 @@
                                 </button>
                                 <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
                                     Technology
+                                </button>
+                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white">
+                                    All
                                 </button>
                             </div>
                             <!-- / category -->
