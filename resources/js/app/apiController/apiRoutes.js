@@ -10,6 +10,8 @@ const apiRoutes = {
     changeDetails: '/profile/change-details',
     changePassword: '/profile/change-password',
     deleteAccount: '/profile/delete-account',
+    uploadImage: '/profile/upload-image',
+    removeImage: '/profile/remove-image',
     logout: '/profile/logout',
 
     listCrud: '/crud/list',

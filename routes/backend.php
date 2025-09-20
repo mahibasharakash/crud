@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('USER.CHANGE.PASSWORD.API.PROFILE');
         Route::post('/logout', [AuthController::class, 'logout'])->name('USER.LOGOUT.API.PROFILE');
         Route::post('/delete-account', [AuthController::class, 'deleteAccount'])->name('USER.DELETE.ACCOUNT.API.PROFILE');
+        Route::post('/upload-image', [AuthController::class, 'uploadImage'])->name('USER.UPLOAD.IMAGE.API.PROFILE');
+        Route::post('/remove-image', [AuthController::class, 'removeImage'])->name('USER.REMOVE.IMAGE.API.PROFILE');
     });
 
     Route::prefix('crud')->group(function() {

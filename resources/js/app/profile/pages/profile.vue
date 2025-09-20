@@ -24,6 +24,37 @@
     </div>
     <!-- / breadcrumb -->
 
+    <div class="w-full flex justify-center">
+
+        <!-- upload photo -->
+        <div class="mb-5 w-full flex justify-center">
+            <div v-if="avatarLoading" class="border border-gray-200 bg-white overflow-hidden rounded-full max-w-[280px] min-w-[280px] max-h-[280px] min-h-[280px] flex justify-center items-center">
+                <span class="inline-block rounded-full w-15 h-15 border-4 border-blue-500 border-t-transparent animate-spin"></span>
+            </div>
+            <div v-if="attach_preview && !avatarLoading" class="border border-gray-200 overflow-hidden rounded-full max-w-[280px] min-w-[280px] max-h-[280px] min-h-[280px] relative">
+                <img :src="attach_preview" class="w-full object-cover bg-cover max-h-[280px] min-h-[280px]" alt="attached-file" />
+                <div class="absolute inset-0 flex justify-center items-center">
+                    <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-red-500 cursor-pointer text-white hover:bg-red-700 rounded-full" @click="removeFile()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <label v-if="!attach_preview && !avatarLoading" for="upload-photo" class="border border-gray-200 bg-white duration-500 overflow-hidden cursor-pointer font-medium hover:bg-gray-300 rounded-full max-w-[280px] min-w-[280px] max-h-[280px] min-h-[280px] text-sm text-center flex justify-center items-center flex-col">
+                <input type="file" name="image" id="upload-photo" hidden @change="attachFile($event)" />
+                <span class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                </span>
+                <span> Upload Photo <br/> ( max: 2048kb or 2MB ) </span>
+            </label>
+        </div>
+        <!-- / upload photo -->
+
+    </div>
+
     <!-- update changes -->
     <div class="w-full bg-white rounded-lg p-6 block mb-5 shadow-md">
 
@@ -196,6 +227,8 @@ export default {
                 password: '',
                 password_confirmation: '',
             },
+            attach_preview: null,
+            avatarLoading: false,
         }
     },
     mounted() {
@@ -211,6 +244,9 @@ export default {
                 const response = await axios.get(apiRoutes.user, null, {headers: apiServices.headerContent});
                 this.profileData = response.data.user;
                 this.profileParam = response.data.user;
+                if(response.data.user.image) {
+                    this.attach_preview = `/storage/${response.data.user.image}`;
+                }
             } finally {
                 this.profileDataLoading = false;
             }
@@ -257,7 +293,47 @@ export default {
             } catch (e) {  } finally {
                 this.accountDeleteLoading = false;
             }
-        }
+        },
+
+        // attach file
+        async attachFile(e) {
+            try {
+                this.avatarLoading = true;
+                this.attach_preview = URL.createObjectURL(e.target.files[0]);
+                this.profileParam.image = e.target.files[0];
+                let formData = new FormData();
+                if (this.profileParam.image) {
+                    formData.append("image", this.profileParam.image);
+                }
+                await axios.post(apiRoutes.uploadImage, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            } finally {
+                this.avatarLoading = false;
+            }
+        },
+
+        // remove file
+        async removeFile() {
+            try {
+                this.avatarLoading = true;
+                this.attach_preview = null;
+                this.profileParam.image = null;
+                await axios.post(apiRoutes.removeImage, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                });
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.avatarLoading = false;
+            }
+        },
 
     }
 }

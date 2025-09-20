@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -182,6 +183,42 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         $user->delete();
         return response()->json( [ 'message' => 'Account deleted successfully' ], 200);
+    }
+
+    public function uploadImage(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
+        $user = $request->user();
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            Storage::disk('public')->put($filename, file_get_contents($file));
+            $updateData['image'] = $filename;
+        }
+        $user->update($updateData);
+        return response()->json(['message' => 'Item updated successfully', 'data' => $user]);
+    }
+
+    public function removeImage(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+            $user->image = null;
+            $user->save();
+            return response()->json(['message' => 'Photo deleted successfully']);
+        }
+        return response()->json(['message' => 'No photo found to delete.'], 404);
     }
 
 }
