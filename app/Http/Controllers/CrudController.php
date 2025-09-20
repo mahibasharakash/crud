@@ -59,8 +59,8 @@ class CrudController extends Controller
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            Storage::disk('public')->put('images/' . $filename, file_get_contents($file));
-            $imagePath = 'images/' . $filename;
+            Storage::disk('public')->put($filename, file_get_contents($file));
+            $imagePath = $filename;
         }
 
         $item = Crud::create([
@@ -110,8 +110,8 @@ class CrudController extends Controller
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            Storage::disk('public')->put('images/' . $filename, file_get_contents($file));
-            $updateData['image'] = 'images/' . $filename;
+            Storage::disk('public')->put($filename, file_get_contents($file));
+            $updateData['image'] = $filename;
         }
         $updateData['slug'] = Str::slug($request->title);
         $item->update($updateData);
