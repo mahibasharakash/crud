@@ -15,7 +15,7 @@ class CrudController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Crud::where('user_id', Auth::id());
+        $query = Crud::orderBy('id','desc')->where('user_id', Auth::id());
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {

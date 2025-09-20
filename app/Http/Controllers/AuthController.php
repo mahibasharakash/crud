@@ -36,7 +36,7 @@ class AuthController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users',
-                'password' => 'required|string|min:8|confirmed',
+                'password' => 'required|string|min:5|confirmed',
             ]);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -78,7 +78,7 @@ class AuthController extends Controller
             $request->validate([
                 'email' => 'required|email|exists:users,email',
                 'reset_code' => 'required|string',
-                'password' => 'required|confirmed|min:8',
+                'password' => 'required|confirmed|min:5',
             ]);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -151,7 +151,7 @@ class AuthController extends Controller
         try {
             $request->validate([
                 'current_password' => 'required',
-                'password' => 'required|confirmed|min:8',
+                'password' => 'required|confirmed|min:5',
             ]);
         } catch (ValidationException $e) {
             return response()->json( ['errors' => $e->errors() ], 422);
