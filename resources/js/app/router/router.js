@@ -17,15 +17,13 @@ import profileLayout from "../profile/layout/layout.vue";
 import dashboard from "../profile/pages/dashboard.vue";
 import profile from "../profile/pages/profile.vue";
 
-const title = 'Crud - ';
-
 const routes = [
     {
         path: '/', name: 'portalLayout', component: portalLayout,
         children: [
-            { path: '', name: 'home', component: home, meta: { title: title + 'Home' } },
-            { path: 'blog-details/:slug', name: 'blogDetails', component: blogDetails, meta: { title: title + 'Blog Details' } },
-            { path: '/auth', name: 'authLayout', component: authLayout,
+            { path: '', name: 'home', component: home, meta: { title: 'Home' } },
+            { path: 'blog-details/:slug', name: 'blogDetails', component: blogDetails, meta: { title: 'Blog Details' } },
+            { path: 'auth', name: 'authLayout', component: authLayout,
                 children: [
                     { path: 'login', name: 'login', component: login, meta: { title: + 'Login' } },
                     { path: 'registration', name: 'registration', component: registration, meta: { title: + 'Registration' } },
@@ -34,10 +32,10 @@ const routes = [
                     { path: 'verification', name: 'verification', component: verification, meta: { title: + 'Verification' } },
                 ]
             },
-            { path: '/user', name: 'profileLayout', component: profileLayout,
+            { path: 'user', name: 'profileLayout', component: profileLayout,
                 children: [
-                    { path: '', name: 'dashboard', component: dashboard, meta: { title: title + 'Dashboard' } },
-                    { path: 'profile', name: 'profile', component: profile, meta: { title: title + 'Profile' } },
+                    { path: '', name: 'dashboard', component: dashboard, meta: { title: 'Dashboard' } },
+                    { path: 'profile', name: 'profile', component: profile, meta: { title: 'Profile' } },
                 ]
             },
         ]
