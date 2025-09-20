@@ -82,6 +82,7 @@ export default {
                 this.logoutLoading = true;
                 await axios.post(apiRoutes.logout, null, {headers: apiServices.headerContent});
                 cookieServices.remove('access_token');
+                cookieServices.remove('user');
                 this.$router.push({name:'login'});
             } catch (e) {
 
