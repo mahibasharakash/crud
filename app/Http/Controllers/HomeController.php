@@ -55,10 +55,12 @@ class HomeController extends Controller
                 'slug' => $item->slug,
                 'image' => $item->image,
                 'human_created_at' => $item->human_created_at,
+                'views' => $item->views,
                 'user' => $item->getInformation ? [
                     'id' => $item->getInformation->id,
                     'name' => $item->getInformation->name,
                     'email' => $item->getInformation->email,
+                    'image' => $item->getInformation->image,
                 ] : null,
                 'category' => $item->getCategory ? [
                     'id' => $item->getCategory->id,
@@ -85,6 +87,7 @@ class HomeController extends Controller
         if (!$item) {
             return response()->json(['message' => 'Not found'], 404);
         }
+        $item->increment('views');
         return response()->json(['data' => $item]);
     }
 

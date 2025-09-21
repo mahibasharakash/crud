@@ -18,7 +18,7 @@
 
                             <!-- select duration -->
                             <div class="max-w-[230px] w-full relative">
-                                <select name="time" v-model="params.time" @input="searchData()" class="w-full font-semibold border-0 bg-white outline-0 ring-0 focus-within:ring-3 ring-blue-500 duration-500 cursor-pointer rounded-md min-h-[50px] max-h-[50px] text-sm px-5 appearance-none" required autocomplete="off">
+                                <select name="time" v-model="params.time" @input="searchData()" class="w-full shadow-lg font-semibold border-0 bg-white outline-0 ring-0 focus-within:ring-3 ring-blue-500 duration-500 cursor-pointer rounded-md min-h-[50px] max-h-[50px] text-sm px-5 appearance-none" required autocomplete="off">
                                     <option :value="null"> Select Duration </option>
                                     <option :value="'today'"> Today </option>
                                     <option :value="'week'"> Week </option>
@@ -38,14 +38,14 @@
                     <!-- / title with duration -->
 
                     <template v-if="listLoading">
-                        <div class="w-full min-h-[calc(100vh-320px)] max-h-[calc(100vh-320px)] flex justify-center items-center bg-white shadow-md rounded-md" v-if="listLoading">
+                        <div class="w-full min-h-[calc(100vh-300px)] rounded-md shadow-lg mb-10 max-h-[calc(100vh-300px)] flex justify-center items-center bg-white flex-col" v-if="listLoading">
                             <div class="w-12 h-12 inline-block rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
                         </div>
                     </template>
 
                     <template v-if="tableData.length === 0">
 
-                        <div class="w-full min-h-[calc(100vh-250px)] rounded-md mb-10 max-h-[calc(100vh-250px)] flex justify-center items-center bg-white flex-col">
+                        <div class="w-full min-h-[calc(100vh-300px)] rounded-md shadow-lg mb-10 max-h-[calc(100vh-300px)] flex justify-center items-center bg-white flex-col">
                             <div class="mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-18 h-18">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
@@ -69,19 +69,13 @@
                                     <div class="min-h-[250px] max-h-[250px] overflow-hidden relative">
 
                                         <!-- card image -->
-                                        <img v-if="each.image" :src="`/storage/${each.image}`" class="w-full scale-100 duration-500 group-hover:scale-125 object-contain bg-contain min-h-[250px] max-h-[250px]" :alt="each.slug" />
+                                        <img v-if="each.image" :src="`/storage/${each.image}`" class="w-full scale-100 duration-500 group-hover:scale-125 object-cover bg-cover min-h-[250px] max-h-[250px]" :alt="each.slug" />
                                         <div v-else class="w-full scale-100 duration-500 group-hover:scale-125 text-2xl font-semibold min-h-[250px] max-h-[250px] flex justify-center items-center">
                                             300x300
                                         </div>
                                         <!-- / card image -->
 
                                         <div class="absolute inset-0 w-full h-full bg-gradient-to-t from-blue-900 to-35% to-transparent opacity-50"></div>
-
-                                        <!-- card views -->
-                                        <div class="absolute top-0 end-0 p-3 pointer-events-none z-10">
-                                            <div class="bg-white px-2.5 py-1.5 text-xs rounded-sm font-medium shadow-md shadow-gray-500"> 10 Views </div>
-                                        </div>
-                                        <!-- / card views -->
 
                                     </div>
 
@@ -100,7 +94,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
                                                     </svg>
                                                 </div>
-                                                <div> {{countNumber(2000)}} </div>
+                                                <div> {{countNumber(each.views)}} </div>
                                             </div>
                                             <!-- / card comments -->
 
@@ -111,7 +105,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                                     </svg>
                                                 </div>
-                                                <div> {{countNumber(1200)}} </div>
+                                                <div> {{countNumber(2000)}} </div>
                                             </div>
                                             <!-- / card share -->
 
@@ -138,7 +132,8 @@
 
                                         <!-- card author name -->
                                         <div class="inline-flex justify-start items-center">
-                                            <div class="min-w-[45px] uppercase bg-blue-500 text-white rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center text-sm">
+                                            <img v-if="each.user.image" :src="`/storage/${each.user.image}`" class="min-w-[45px] rounded-full min-h-[45px] max-w-[45px] max-h-[45px]" :alt="each.image" />
+                                            <div v-else class="min-w-[45px] uppercase bg-blue-500 text-white rounded-full min-h-[45px] max-w-[45px] max-h-[45px] inline-flex justify-center items-center text-sm">
                                                 {{shortName(each?.user?.name)}}
                                             </div>
                                             <div class="ms-2 text-sm"> {{each?.user?.name}} </div>

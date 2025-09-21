@@ -12,6 +12,8 @@ class Crud extends Model
         'image',
         'short_description',
         'long_description',
+        'views',
+        'share',
         'user_id',
         'category_id',
     ];

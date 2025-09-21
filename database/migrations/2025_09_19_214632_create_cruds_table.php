@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('category_id');
+            $table->unsignedBigInteger('views')->default(0);
+            $table->unsignedBigInteger('share')->default(0);
             $table->string('image')->nullable();
             $table->text('short_description');
             $table->longText('long_description')->nullable();
