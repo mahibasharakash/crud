@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -65,11 +66,19 @@ class AuthController extends Controller
             $code = rand(100000, 999999);
             $user->verification_code = $code;
             $user->save();
+            Mail::raw("Your verification code is: {$code}", function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject('Email Verification Code');
+            });
             return response()->json( [ 'message' => 'Email not verified. Verification code sent.', 'type' => 'verification' ] );
         }
         $resetCode = rand(100000, 999999);
         $user->reset_code = $resetCode;
         $user->save();
+        Mail::raw("Your password reset code is: {$resetCode}", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Password Reset Code');
+        });
         return response()->json( [ 'message' => 'Password reset code sent.', 'type' => 'reset' ] );
     }
 
@@ -122,6 +131,10 @@ class AuthController extends Controller
         $resetCode = rand(100000, 999999);
         $user->reset_code = $resetCode;
         $user->save();
+        Mail::raw("Your email has been verified successfully. Here is your reset code: {$resetCode}", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Email Verified');
+        });
         return response()->json( [ 'message' => 'Email verified successfully', 'reset_code' => $resetCode ] );
     }
 
