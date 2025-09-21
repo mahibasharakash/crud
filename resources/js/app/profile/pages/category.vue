@@ -38,11 +38,21 @@
         </div>
         <!-- / search -->
 
-        <!-- button -->
-        <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-blue-500 duration-500 hover:bg-blue-700 text-white cursor-pointer" @click="openManageModal(null)">
-            New
-        </button>
-        <!-- / button -->
+        <div class="flex justify-end items-center gap-2">
+
+            <!-- clear -->
+            <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-red-500 duration-500 hover:bg-red-700 text-white cursor-pointer" @click="clearApi()">
+                Clear
+            </button>
+            <!-- / clear -->
+
+            <!-- button -->
+            <button type="button" class="text-sm min-w-[100px] min-h-[50px] max-h-[50px] inline-flex justify-center items-center rounded-md bg-blue-500 duration-500 hover:bg-blue-700 text-white cursor-pointer" @click="openManageModal(null)">
+                New
+            </button>
+            <!-- / button -->
+
+        </div>
 
     </div>
     <!-- / search and control modal -->
@@ -418,6 +428,17 @@ export default {
                 this.deleteLoading = true;
                 await axios.delete(apiRoutes.deleteCategory+`/${this.formData.id}`, {headers: apiServices.headerContent});
                 this.closeDeleteModal();
+                await this.listApi();
+            } finally {
+                this.deleteLoading = false;
+            }
+        },
+
+        // clear api implementation
+        async clearApi() {
+            try {
+                this.deleteLoading = true;
+                await axios.delete(apiRoutes.clearCategory, {headers: apiServices.headerContent});
                 await this.listApi();
             } finally {
                 this.deleteLoading = false;

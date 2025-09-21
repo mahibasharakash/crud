@@ -81,4 +81,10 @@ class CategoryController extends Controller
         return response()->json( [ 'data' => $items ] );
     }
 
+    public function clear(Request $request): JsonResponse
+    {
+        Category::where('user_id', Auth::id())->delete();
+        return response()->json(['message' => 'All categories cleared successfully']);
+    }
+
 }

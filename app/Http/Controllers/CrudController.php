@@ -122,4 +122,16 @@ class CrudController extends Controller
         return response()->json(['message' => 'Item deleted successfully']);
     }
 
+    public function clear(Request $request): JsonResponse
+    {
+        $items = Crud::where('user_id', Auth::id())->get();
+        foreach ($items as $item) {
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+        }
+        Crud::where('user_id', Auth::id())->delete();
+        return response()->json(['message' => 'All items cleared successfully']);
+    }
+
 }

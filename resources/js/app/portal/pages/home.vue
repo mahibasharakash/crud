@@ -225,28 +225,32 @@
                         </div>
                         <!-- / title with search -->
 
-                        <!-- title with category -->
-                        <div class="w-full px-6 py-5 gap-3 bg-white rounded-md mb-5 shadow-md">
+                        <template v-if="categoryData.length > 0">
 
-                            <!-- title -->
-                            <div class="mb-3 w-full block text-xl font-semibold"> Category </div>
-                            <!-- / title -->
+                            <!-- title with category -->
+                            <div class="w-full px-6 py-5 gap-3 bg-white rounded-md mb-5 shadow-md">
 
-                            <!-- category -->
-                            <div class="w-full flex flex-wrap gap-2">
-                                <template v-for="(each,index) in categoryData" :key="index">
-                                    <button type="button" class="cursor-pointer capitalize ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory(each.title)">
-                                        {{each.title}}
-                                    </button>
-                                </template>
-                                <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory('')">
-                                    All
-                                </button>
+                                <!-- title -->
+                                <div class="mb-3 w-full block text-xl font-semibold"> Category </div>
+                                <!-- / title -->
+
+                                <!-- category -->
+                                    <div class="w-full flex flex-wrap gap-2">
+                                        <template v-for="(each, index) in categoryData" :key="index">
+                                            <button type="button" class="cursor-pointer capitalize ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory(each.title)">
+                                                {{each.title}}
+                                            </button>
+                                        </template>
+                                        <button type="button" class="cursor-pointer ring-0 focus:ring-3 ring-blue-700/50 duration-500 text-sm px-4.5 py-1.5 rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-700 text-white" @click="selectCategory('')">
+                                            All
+                                        </button>
+                                    </div>
+                                <!-- / category -->
+
                             </div>
-                            <!-- / category -->
+                            <!-- / title with category -->
 
-                        </div>
-                        <!-- / title with category -->
+                        </template>
 
                     </div>
 

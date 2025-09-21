@@ -31,43 +31,43 @@
                 </div>
 
                 <!-- home -->
-                <RouterLink :to="{ name: 'home' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'home', 'text-black': $route.name !== 'home' }">
+                <RouterLink :to="{ name: 'home' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'home', 'text-black': $route.name !== 'home' }">
                     Home
                 </RouterLink>
                 <!-- / home -->
 
                 <!-- login -->
-                <RouterLink v-if="!profileData" :to="{ name: 'login' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'login', 'text-black': $route.name !== 'login' }">
+                <RouterLink v-if="!profileData" :to="{ name: 'login' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'login', 'text-black': $route.name !== 'login' }">
                     Login
                 </RouterLink>
                 <!-- / login -->
 
                 <!-- registration -->
-                <RouterLink v-if="!profileData" :to="{ name: 'registration' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'registration', 'text-black': $route.name !== 'registration' }">
+                <RouterLink v-if="!profileData" :to="{ name: 'registration' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'registration', 'text-black': $route.name !== 'registration' }">
                     Registration
                 </RouterLink>
                 <!-- / registration -->
 
                 <!-- dashboard -->
-                <RouterLink v-if="profileData" :to="{ name: 'dashboard' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'dashboard', 'text-black': $route.name !== 'dashboard' }">
+                <RouterLink v-if="profileData" :to="{ name: 'dashboard' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'dashboard', 'text-black': $route.name !== 'dashboard' }">
                     Dashboard
                 </RouterLink>
                 <!-- / dashboard -->
 
                 <!-- category -->
-                <RouterLink v-if="profileData" :to="{ name: 'category' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'category', 'text-black': $route.name !== 'category' }">
+                <RouterLink v-if="profileData" :to="{ name: 'category' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'category', 'text-black': $route.name !== 'category' }">
                     Category
                 </RouterLink>
                 <!-- / category -->
 
                 <!-- profile -->
-                <RouterLink v-if="profileData" :to="{ name: 'profile' }" @click="this.isSidebarActive = false" class="decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'profile', 'text-black': $route.name !== 'profile' }">
+                <RouterLink v-if="profileData" :to="{ name: 'profile' }" @click="this.isSidebarActive = false" class="font-semibold decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': $route.name === 'profile', 'text-black': $route.name !== 'profile' }">
                     {{ profileData }}
                 </RouterLink>
                 <!-- / profile -->
 
                 <!-- logout -->
-                <a v-if="profileData" class="cursor-pointer decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': logoutLoading, 'text-black': !logoutLoading }" @click="logoutApi();this.isSidebarActive = false">
+                <a v-if="profileData" class="font-semibold cursor-pointer decoration-0 text-sm duration-500 hover:text-blue-600" :class="{ 'text-blue-600': logoutLoading, 'text-black': !logoutLoading }" @click="logoutApi();this.isSidebarActive = false">
                     Logout
                 </a>
                 <!-- / logout -->

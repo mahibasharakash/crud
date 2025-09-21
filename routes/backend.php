@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CrudController::class, 'show'])->name('SHOW.API.CRUD');
         Route::put('/update/{id}', [CrudController::class, 'update'])->name('UPDATE.API.CRUD');
         Route::delete('/delete/{id}', [CrudController::class, 'destroy'])->name('DELETE.API.CRUD');
+        Route::delete('/clear', [CrudController::class, 'clear'])->name('CLEAR.API.CRUD');
     });
 
     Route::prefix('category')->group(function() {
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CategoryController::class, 'show'])->name('SHOW.API.CATEGORY');
         Route::put('/update/{id}', [CategoryController::class, 'update'])->name('UPDATE.API.CATEGORY');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('DELETE.API.CATEGORY');
+        Route::delete('/clear', [CategoryController::class, 'clear'])->name('CLEAR.API.CATEGORY');
         Route::get('/get-category', [CategoryController::class, 'getCategory'])->name('GET.CATEGORY.API.CATEGORY');
     });
 
