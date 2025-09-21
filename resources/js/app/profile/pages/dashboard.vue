@@ -243,7 +243,7 @@
                     <!-- upload photo -->
                     <div class="mb-3 w-full block">
                         <div v-if="attach_preview" class="border border-gray-200 rounded-lg overflow-hidden max-h-[200px] min-h-[200px] relative">
-                            <img :src="attach_preview" class="w-full object-cover bg-cover max-h-[200px] min-h-[200px]" alt="attached-file" />
+                            <img :src="attach_preview" class="w-full object-contain bg-contain max-h-[200px] min-h-[200px]" alt="attached-file" />
                             <div class="absolute inset-0 flex justify-center items-center">
                                 <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-red-500 cursor-pointer text-white hover:bg-red-700 rounded-full" @click="removeFile()">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
@@ -252,7 +252,7 @@
                                 </button>
                             </div>
                         </div>
-                        <label v-else for="upload-photo" class="border border-gray-200 bg-gray-100 duration-500 overflow-hidden rounded-lg cursor-pointer font-medium hover:bg-gray-300 w-full min-h-[200px] max-h-[200px] text-sm text-center flex justify-center items-center flex-col">
+                        <label v-else for="upload-photo" class="border font-medium border-gray-200 bg-gray-100 duration-500 overflow-hidden rounded-lg cursor-pointer font-medium hover:bg-gray-300 w-full min-h-[200px] max-h-[200px] text-sm text-center flex justify-center items-center flex-col">
                             <input type="file" name="image" id="upload-photo" hidden @change="attachFile($event)" />
                             <span class="mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
@@ -266,9 +266,9 @@
 
                     <!-- select -->
                     <div class="mb-3 w-full block">
-                        <label for="category_id" class="mb-2 w-full block text-sm"> Category </label>
+                        <label for="category_id" class="mb-2 w-full block text-sm font-medium"> Category </label>
                         <div class="w-full relative">
-                            <select name="category_id" id="category_id" v-model="formData.category_id" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner appearance-none cursor-pointer" autocomplete="off">
+                            <select name="category_id" id="category_id" v-model="formData.category_id" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner appearance-none cursor-pointer" autocomplete="off">
                                 <option :value="null"> Select Category </option>
                                 <option v-for="(each, index) in categoryData" :key="index" :value="each.id"> {{each.title}} </option>
                             </select>
@@ -284,24 +284,24 @@
 
                     <!-- title -->
                     <div class="mb-3 w-full block">
-                        <label for="title" class="mb-2 w-full block text-sm"> Title </label>
-                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="title" class="mb-2 w-full block text-sm font-medium"> Title </label>
+                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
                     </div>
                     <!-- / title -->
 
                     <!-- description -->
                     <div class="mb-3 w-full block">
-                        <label for="short_description" class="mb-2 w-full block text-sm"> Short Description </label>
-                        <textarea name="short_description" id="short_description" v-model="formData.short_description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="3" autocomplete="off"></textarea>
+                        <label for="short_description" class="mb-2 w-full block text-sm font-medium"> Short Description </label>
+                        <textarea name="short_description" id="short_description" v-model="formData.short_description" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="3" autocomplete="off"></textarea>
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.short_description"> {{error?.short_description[0]}} </div>
                     </div>
                     <!-- / description -->
 
                     <!-- description -->
                     <div class="mb-3 w-full block">
-                        <label for="long_description" class="mb-2 w-full block text-sm"> Long Description </label>
-                        <textarea name="long_description" id="long_description" v-model="formData.long_description" class="text-xs w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="5" autocomplete="off"></textarea>
+                        <label for="long_description" class="mb-2 w-full block text-sm font-medium"> Long Description </label>
+                        <textarea name="long_description" id="long_description" v-model="formData.long_description" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 p-4 shadow-inner" cols="30" rows="5" autocomplete="off"></textarea>
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.long_description"> {{error?.long_description[0]}} </div>
                     </div>
                     <!-- / description -->

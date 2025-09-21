@@ -7,7 +7,7 @@
 
                 <!-- card image -->
                 <div class="pt-5 w-full">
-                    <img v-if="singleData?.image" :src="`/storage/${singleData?.image}`" class="w-full object-cover bg-cover min-h-[450px] max-h-[450px] rounded-md" alt="food" />
+                    <img v-if="singleData?.image" :src="`/storage/${singleData?.image}`" class="w-full object-contain bg-contain min-h-[450px] max-h-[450px] rounded-md" alt="food" />
                     <div v-else class="w-full scale-100 duration-500 group-hover:scale-125 text-2xl font-semibold min-h-[250px] max-h-[250px] flex justify-center items-center">
                         300x300
                     </div>
@@ -73,7 +73,7 @@
 
                 <!-- card inner image -->
                 <div class="max-w-[650px] my-10 w-full mx-auto">
-                    <img v-if="singleData?.image" :src="`/storage/${singleData?.image}`" class="w-full object-cover bg-cover min-h-[350px] max-h-[350px] rounded-md" alt="food" />
+                    <img v-if="singleData?.image" :src="`/storage/${singleData?.image}`" class="w-full object-contain bg-contain min-h-[350px] max-h-[350px] rounded-md" alt="food" />
                     <div v-else class="w-full scale-100 duration-500 group-hover:scale-125 text-2xl font-semibold min-h-[350px] max-h-[350px] flex justify-center items-center">
                         300x300
                     </div>

@@ -69,7 +69,7 @@
                                     <div class="min-h-[250px] max-h-[250px] overflow-hidden relative">
 
                                         <!-- card image -->
-                                        <img v-if="each.image" :src="`/storage/${each.image}`" class="w-full scale-100 duration-500 group-hover:scale-125 object-cover bg-cover min-h-[250px] max-h-[250px]" :alt="each.slug" />
+                                        <img v-if="each.image" :src="`/storage/${each.image}`" class="w-full scale-100 duration-500 group-hover:scale-125 object-contain bg-contain min-h-[250px] max-h-[250px]" :alt="each.slug" />
                                         <div v-else class="w-full scale-100 duration-500 group-hover:scale-125 text-2xl font-semibold min-h-[250px] max-h-[250px] flex justify-center items-center">
                                             300x300
                                         </div>

@@ -289,6 +289,7 @@ export default {
                 this.accountDeleteLoading = true;
                 await axios.post(apiRoutes.deleteAccount, null, {headers: apiServices.headerContent});
                 cookieServices.remove('access_token');
+                cookieServices.remove("user");
                 this.$router.push({name:'login'});
             } catch (e) {  } finally {
                 this.accountDeleteLoading = false;

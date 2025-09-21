@@ -6,7 +6,7 @@
         <!-- verification code -->
         <div class="mb-3 w-full block">
             <label for="verification_code" class="mb-2 w-full block text-sm font-medium"> Verification Code </label>
-            <input id="verification_code" type="text" name="verification_code" v-model="formData.verification_code" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+            <input id="verification_code" type="text" name="verification_code" v-model="formData.verification_code" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
             <div class="mt-2 w-full block text-red-500 text-xs" v-if="error?.verification_code"> {{error?.verification_code[0]}} </div>
         </div>
         <!-- / verification code -->

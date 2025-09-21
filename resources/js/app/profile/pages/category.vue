@@ -172,8 +172,8 @@
 
                     <!-- title -->
                     <div class="mb-3 w-full block">
-                        <label for="title" class="mb-2 w-full block text-sm"> Title </label>
-                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="title" class="mb-2 w-full block text-sm font-medium"> Title </label>
+                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
                     </div>
                     <!-- / title -->
