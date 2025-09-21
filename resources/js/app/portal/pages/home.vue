@@ -39,7 +39,7 @@
                         </div>
                     </template>
 
-                    <template v-if="tableData.length === 0">
+                    <template v-if="tableData.length === 0 && !listLoading">
 
                         <div class="w-full min-h-[calc(100vh-300px)] rounded-md shadow-lg mb-10 max-h-[calc(100vh-300px)] flex justify-center items-center bg-white flex-col">
                             <div class="mb-3 text-blue-400">
