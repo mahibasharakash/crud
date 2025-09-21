@@ -10,11 +10,7 @@
 
                     <!-- title with duration -->
                     <div class="w-full gap-3 rounded-md mb-5">
-                        <div class="w-full flex justify-between items-center">
-
-                            <!-- title -->
-                            <div class="w-full block text-xl font-semibold ps-0.5"> Post </div>
-                            <!-- / title -->
+                        <div class="w-full flex justify-end items-center">
 
                             <!-- select duration -->
                             <div class="max-w-[230px] w-full relative">
@@ -46,12 +42,12 @@
                     <template v-if="tableData.length === 0">
 
                         <div class="w-full min-h-[calc(100vh-300px)] rounded-md shadow-lg mb-10 max-h-[calc(100vh-300px)] flex justify-center items-center bg-white flex-col">
-                            <div class="mb-3">
+                            <div class="mb-3 text-blue-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-18 h-18">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                 </svg>
                             </div>
-                            <div class="font-medium text-md"> No Data Found </div>
+                            <div class="font-medium text-sm text-center text-gray-600 leading-7"> After Login user can <br/> apply for blog </div>
                         </div>
 
                     </template>
@@ -85,31 +81,18 @@
                                         <div> {{each.human_created_at}} </div>
                                         <!-- / card date -->
 
-                                        <div class="flex items-center justify-end gap-3">
-
-                                            <!-- card comments -->
-                                            <div class="inline-flex justify-end items-center gap-2">
-                                                <div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
-                                                    </svg>
-                                                </div>
-                                                <div> {{countNumber(each.views)}} </div>
+                                        <!-- card comments -->
+                                        <div class="inline-flex justify-end items-center gap-2">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
                                             </div>
-                                            <!-- / card comments -->
-
-                                            <!-- card share -->
-                                            <div class="inline-flex justify-end items-center gap-2">
-                                                <div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-                                                    </svg>
-                                                </div>
-                                                <div> {{countNumber(2000)}} </div>
-                                            </div>
-                                            <!-- / card share -->
-
+                                            <div> {{countNumber(each.views)}} </div>
                                         </div>
+                                        <!-- / card comments -->
+
                                     </div>
 
                                     <!-- card title -->
